@@ -227,11 +227,12 @@
     .emoji-input-wrap:hover { box-shadow: var(--shadow-sm); }
     .emoji-input-wrap input { display: none; }
     .emoji-selected { font-size: 1.4rem; user-select: none; }
-    .emoji-picker-dropdown { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 60; background: var(--surface-container-lowest); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-lg); border: 1px solid var(--surface-container-high); display: none; width: 260px; animation: slideDown 0.2s ease both; }
+    .emoji-picker-dropdown { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 60; background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--surface-container-high); display: none; width: 320px; animation: slideDown 0.2s ease both; }
     .emoji-picker-dropdown.open { display: block; }
-    .emoji-picker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
-    .emoji-pick-btn { width: 36px; height: 36px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-    .emoji-pick-btn:hover { background: var(--surface-container-high); transform: scale(1.2); }
+    .emoji-picker-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--on-surface-variant); margin-bottom: 12px; }
+    .emoji-picker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+    .emoji-pick-btn { width: 44px; height: 44px; border: none; background: var(--surface-container-low); border-radius: 12px; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .emoji-pick-btn:hover { background: var(--surface-container-high); transform: scale(1.15); }
     .emoji-pick-btn.selected { background: var(--primary-container); box-shadow: 0 0 0 2px var(--primary); }
 
     .name-emoji-row { display: flex; gap: 12px; align-items: stretch; }
@@ -775,13 +776,17 @@
     .note-add-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .note-add-card h3 .material-symbols-outlined { color: var(--primary); }
     .note-form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
-    .note-form-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 200px; }
-    .note-form-field label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--on-surface-variant); }
-    .note-form-field input, .note-form-field textarea { font-family: inherit; font-size: 0.9rem; font-weight: 500; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--outline-variant); background: var(--surface-container-low); color: var(--on-surface); outline: none; transition: border-color 0.2s; }
-    .note-form-field input:focus, .note-form-field textarea:focus { border-color: var(--primary); }
-    .note-form-field textarea { resize: vertical; min-height: 60px; }
-    .note-add-btn { font-family: inherit; font-size: 0.85rem; font-weight: 700; padding: 10px 24px; border-radius: 999px; border: none; cursor: pointer; background: var(--primary); color: var(--on-primary); transition: all 0.15s; white-space: nowrap; align-self: flex-end; }
-    .note-add-btn:hover { box-shadow: 0 2px 8px rgba(134,73,88,0.25); transform: translateY(-1px); }
+    .note-form-field { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 200px; }
+    .note-form-field label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--on-surface-variant); padding-left: 4px; }
+    .note-form-field input, .note-form-field textarea { font-family: inherit; font-size: 0.95rem; font-weight: 500; padding: 14px 20px; border-radius: 1.5rem; border: none; background: var(--surface-container-highest); color: var(--on-surface); outline: none; transition: box-shadow 0.2s; }
+    .note-form-field input:focus, .note-form-field textarea:focus { box-shadow: var(--shadow-sm); }
+    .note-form-field input::placeholder, .note-form-field textarea::placeholder { color: var(--outline); }
+    .note-form-field textarea { resize: vertical; min-height: 60px; border-radius: 1.2rem; }
+    .note-form-field input[type="date"] { padding: 14px 20px; cursor: pointer; }
+    .note-form-field input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
+    .note-add-btn { font-family: inherit; font-size: 0.9rem; font-weight: 700; padding: 14px 28px; border-radius: 999px; border: none; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--primary-container)); color: white; transition: all 0.15s; white-space: nowrap; align-self: flex-end; box-shadow: 0 4px 16px rgba(134,73,88,0.25); }
+    .note-add-btn:hover { box-shadow: 0 6px 24px rgba(134,73,88,0.35); transform: translateY(-2px); }
+    .note-add-btn:active { transform: scale(0.97); }
 
     .notes-list { display: flex; flex-direction: column; gap: 12px; }
     .note-item { background: var(--surface-container-lowest); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm); display: flex; align-items: flex-start; gap: 16px; transition: box-shadow 0.2s; animation: fadeInUp 0.3s ease both; }
@@ -970,6 +975,7 @@
                     <input type="hidden" id="habitEmojiInput" value="🌱">
                     <span class="emoji-selected" id="emojiPreview">🌱</span>
                     <div class="emoji-picker-dropdown" id="emojiPickerDropdown">
+                      <div class="emoji-picker-label">Choose an icon</div>
                       <div class="emoji-picker-grid" id="emojiPickerGrid"></div>
                     </div>
                   </div>
@@ -1100,18 +1106,18 @@
           <h3><span class="material-symbols-outlined">add_circle</span> Add a Reminder</h3>
           <div class="note-form-row">
             <div class="note-form-field">
-              <label>Title</label>
+              <label>Reminder Title</label>
               <input type="text" id="noteTitle" placeholder="What to remember..." maxlength="80">
             </div>
-            <div class="note-form-field" style="min-width:140px;flex:0 0 auto">
-              <label>Date</label>
+          </div>
+          <div class="note-form-row" style="margin-top:14px">
+            <div class="note-form-field" style="min-width:160px;flex:0 0 200px">
+              <label>Reminder Date</label>
               <input type="date" id="noteDate">
             </div>
-          </div>
-          <div class="note-form-row" style="margin-top:12px">
             <div class="note-form-field">
               <label>Details (optional)</label>
-              <textarea id="noteBody" placeholder="Add more details..." rows="2"></textarea>
+              <input type="text" id="noteBody" placeholder="Add more details...">
             </div>
             <button class="note-add-btn" id="addNoteBtn">Add Note</button>
           </div>
