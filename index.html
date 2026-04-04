@@ -68,41 +68,18 @@
 
     .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 
-    /* ========== Top App Bar ========== */
-    .top-bar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      background: rgba(254,244,244,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 20px 50px rgba(50,45,46,0.04);
-      display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;
-    }
-    .top-bar .brand { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.04em; color: var(--on-primary-container); }
-    .top-bar .top-title { font-size: 1.2rem; font-weight: 800; color: var(--on-primary-container); display: none; }
-    .top-bar nav { display: none; }
-    .top-bar .bar-actions { display: flex; align-items: center; gap: 4px; }
-    .top-bar .bar-actions button {
-      background: none; border: none; cursor: pointer; width: 40px; height: 40px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; color: var(--on-primary-container); transition: background 0.15s;
-    }
-    .top-bar .bar-actions button:hover { background: rgba(134,73,88,0.08); }
-
-    @media (min-width: 768px) {
-      .top-bar { padding: 16px 32px; }
-      .top-bar nav { display: flex; align-items: center; gap: 8px; }
-      .top-bar nav a { text-decoration: none; font-size: 0.9rem; font-weight: 600; padding: 6px 16px; border-radius: 999px; transition: all 0.15s; cursor: pointer; }
-      .top-bar nav a.active { color: var(--on-primary-container); border-bottom: 2px solid var(--primary); }
-      .top-bar nav a:not(.active) { color: var(--on-surface-variant); }
-      .top-bar nav a:not(.active):hover { background: rgba(134,73,88,0.06); }
-    }
+    /* ========== Top App Bar (hidden) ========== */
+    .top-bar { display: none; }
 
     /* ========== App Layout ========== */
-    .app-layout { display: flex; padding-top: 72px; min-height: 100vh; }
+    .app-layout { display: flex; padding-top: 0; min-height: 100vh; }
 
     /* ========== Sidebar ========== */
     .sidebar { display: none; }
     @media (min-width: 1024px) {
       .sidebar {
-        display: flex; flex-direction: column; width: 280px; min-height: calc(100vh - 72px);
-        position: sticky; top: 72px; background: var(--surface-container-low);
+        display: flex; flex-direction: column; width: 280px; min-height: 100vh;
+        position: sticky; top: 0; background: var(--surface-container-low);
         border-radius: 0 var(--radius-xl) var(--radius-xl) 0; padding: 40px 24px;
         box-shadow: 40px 0 80px rgba(50,45,46,0.02); flex-shrink: 0; gap: 8px;
       }
@@ -117,6 +94,10 @@
       .sidebar-nav a.active { background: linear-gradient(135deg, var(--primary), var(--primary-container)); color: white; box-shadow: 0 4px 16px rgba(134,73,88,0.3); font-weight: 600; }
       .sidebar-nav a.active .material-symbols-outlined { color: white; }
       .sidebar-nav a .material-symbols-outlined { font-size: 22px; }
+      .sidebar-bottom { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--surface-container-high); display: flex; align-items: center; gap: 10px; }
+      .sidebar-dark-toggle { background: none; border: none; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--on-surface-variant); transition: background 0.15s; }
+      .sidebar-dark-toggle:hover { background: rgba(134,73,88,0.08); }
+      .sidebar-dark-label { font-size: 0.82rem; font-weight: 600; color: var(--on-surface-variant); }
     }
 
     /* ========== Main Content ========== */
@@ -199,6 +180,9 @@
     .check-btn.checked { background: var(--primary); border-color: var(--primary); color: white; animation: checkPop 0.3s ease; }
     .check-btn.checked .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
 
+    .edit-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--outline); transition: all 0.15s; }
+    .edit-btn:hover { background: var(--secondary-container); color: var(--on-secondary-container); }
+    .edit-btn .material-symbols-outlined { font-size: 18px; }
     .delete-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--outline); transition: all 0.15s; }
     .delete-btn:hover { background: var(--error-container); color: var(--on-error); }
     .delete-btn:focus-visible { outline: 2px solid var(--error); outline-offset: 2px; }
@@ -239,8 +223,16 @@
     .ritual-input { background: transparent; border: none; width: 100%; font-family: inherit; font-size: 1.15rem; font-weight: 500; color: var(--on-surface); outline: none; }
     .ritual-input::placeholder { color: var(--outline); }
 
-    .emoji-input-wrap { background: var(--surface-container-highest); border-radius: 1.5rem; padding: 18px; width: 80px; text-align: center; }
-    .emoji-input-wrap input { background: transparent; border: none; width: 100%; font-size: 1.4rem; text-align: center; outline: none; }
+    .emoji-input-wrap { background: var(--surface-container-highest); border-radius: 1.5rem; padding: 18px; width: 80px; text-align: center; cursor: pointer; position: relative; transition: box-shadow 0.2s; }
+    .emoji-input-wrap:hover { box-shadow: var(--shadow-sm); }
+    .emoji-input-wrap input { display: none; }
+    .emoji-selected { font-size: 1.4rem; user-select: none; }
+    .emoji-picker-dropdown { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 60; background: var(--surface-container-lowest); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-lg); border: 1px solid var(--surface-container-high); display: none; width: 260px; animation: slideDown 0.2s ease both; }
+    .emoji-picker-dropdown.open { display: block; }
+    .emoji-picker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .emoji-pick-btn { width: 36px; height: 36px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .emoji-pick-btn:hover { background: var(--surface-container-high); transform: scale(1.2); }
+    .emoji-pick-btn.selected { background: var(--primary-container); box-shadow: 0 0 0 2px var(--primary); }
 
     .name-emoji-row { display: flex; gap: 12px; align-items: stretch; }
     .name-emoji-row .ritual-input-wrap { flex: 1; }
@@ -283,7 +275,7 @@
 
     /* Smart Suggestions Sidebar */
     .suggestions-panel { background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 40px 80px rgba(50,45,46,0.06); border: 1px solid rgba(255,255,255,0.5); }
-    @media (min-width: 900px) { .suggestions-panel { position: sticky; top: 96px; } }
+    @media (min-width: 900px) { .suggestions-panel { position: sticky; top: 24px; } }
     .suggestions-panel h4 { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
     .suggestions-panel h4 .material-symbols-outlined { color: var(--tertiary); }
 
@@ -391,6 +383,10 @@
     .performer-bar-track { flex: 1; height: 8px; background: var(--surface); border-radius: 999px; overflow: hidden; }
     .performer-bar-fill { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
     .performer-pct { font-size: 0.75rem; font-weight: 900; flex-shrink: 0; }
+    .performer-days { display: flex; gap: 3px; margin-top: 6px; }
+    .performer-day-dot { width: 20px; height: 18px; border-radius: 4px; font-size: 0.55rem; font-weight: 700; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+    .performer-day-dot.active { background: var(--primary-container); color: var(--on-primary-container); }
+    .performer-day-dot.inactive { background: var(--surface-container-high); color: var(--outline); opacity: 0.5; }
 
     /* Insight Banner */
     .stats-insight-banner { border-radius: var(--radius); padding: 4px; background: linear-gradient(135deg, var(--primary), var(--primary-container)); }
@@ -538,7 +534,7 @@
       --shadow-lg: 0 8px 40px rgba(0,0,0,0.4);
     }
     body.dark-mode .glass-card { background: rgba(30,25,27,0.7); }
-    body.dark-mode .top-bar { background: rgba(26,21,23,0.85); }
+    body.dark-mode .top-bar { display: none; }
     body.dark-mode .bottom-nav { background: rgba(26,21,23,0.92); border-top-color: rgba(80,72,73,0.3); }
     body.dark-mode .goal-card .progress-fill { background: linear-gradient(90deg, var(--primary), var(--primary-container)); box-shadow: 0 0 15px rgba(255,177,193,0.2); }
     body.dark-mode .streak-card { background: linear-gradient(135deg, var(--tertiary-container), var(--secondary-container)); }
@@ -768,6 +764,54 @@
     .settings-stat-item .ss-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
     .settings-stat-item .ss-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--on-surface-variant); }
 
+    /* ========== NOTES VIEW ========== */
+    .notes-hero { margin-bottom: 32px; }
+    .notes-hero h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
+    .notes-hero h1 .accent { color: var(--primary); font-style: italic; }
+    .notes-hero p { color: var(--on-surface-variant); font-size: 0.95rem; }
+    @media (min-width: 768px) { .notes-hero h1 { font-size: 2.8rem; } }
+
+    .note-add-card { background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 24px; }
+    .note-add-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .note-add-card h3 .material-symbols-outlined { color: var(--primary); }
+    .note-form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+    .note-form-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 200px; }
+    .note-form-field label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--on-surface-variant); }
+    .note-form-field input, .note-form-field textarea { font-family: inherit; font-size: 0.9rem; font-weight: 500; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--outline-variant); background: var(--surface-container-low); color: var(--on-surface); outline: none; transition: border-color 0.2s; }
+    .note-form-field input:focus, .note-form-field textarea:focus { border-color: var(--primary); }
+    .note-form-field textarea { resize: vertical; min-height: 60px; }
+    .note-add-btn { font-family: inherit; font-size: 0.85rem; font-weight: 700; padding: 10px 24px; border-radius: 999px; border: none; cursor: pointer; background: var(--primary); color: var(--on-primary); transition: all 0.15s; white-space: nowrap; align-self: flex-end; }
+    .note-add-btn:hover { box-shadow: 0 2px 8px rgba(134,73,88,0.25); transform: translateY(-1px); }
+
+    .notes-list { display: flex; flex-direction: column; gap: 12px; }
+    .note-item { background: var(--surface-container-lowest); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm); display: flex; align-items: flex-start; gap: 16px; transition: box-shadow 0.2s; animation: fadeInUp 0.3s ease both; }
+    .note-item:hover { box-shadow: var(--shadow-md); }
+    .note-item.today-note { border-left: 4px solid var(--primary); }
+    .note-item.past-note { opacity: 0.6; }
+    .note-date-badge { background: var(--surface-container-high); border-radius: 12px; padding: 8px 12px; text-align: center; flex-shrink: 0; min-width: 60px; }
+    .note-date-badge .note-day { font-size: 1.3rem; font-weight: 800; color: var(--on-surface); display: block; line-height: 1; }
+    .note-date-badge .note-month { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--on-surface-variant); }
+    .note-item.today-note .note-date-badge { background: var(--primary); }
+    .note-item.today-note .note-date-badge .note-day { color: white; }
+    .note-item.today-note .note-date-badge .note-month { color: rgba(255,255,255,0.8); }
+    .note-content { flex: 1; min-width: 0; }
+    .note-content h4 { font-size: 0.95rem; font-weight: 700; color: var(--on-surface); margin-bottom: 4px; }
+    .note-content p { font-size: 0.85rem; color: var(--on-surface-variant); line-height: 1.5; }
+    .note-delete-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--outline); transition: all 0.15s; flex-shrink: 0; }
+    .note-delete-btn:hover { background: var(--error-container); color: var(--on-error); }
+    .note-delete-btn .material-symbols-outlined { font-size: 16px; }
+    .notes-empty { text-align: center; padding: 48px 24px; color: var(--on-surface-variant); }
+    .notes-empty .material-symbols-outlined { font-size: 56px; color: var(--primary-container); margin-bottom: 12px; display: block; }
+
+    /* Dashboard reminder notes */
+    .dashboard-reminders { } @media (min-width: 768px) { .dashboard-reminders { grid-column: span 12; } }
+    .reminder-banner { background: linear-gradient(135deg, var(--tertiary-container), var(--secondary-container)); border-radius: var(--radius-lg); padding: 20px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 12px; animation: fadeInUp 0.35s ease both; }
+    .reminder-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .reminder-icon .material-symbols-outlined { font-size: 24px; color: var(--on-tertiary-fixed); font-variation-settings: 'FILL' 1; }
+    .reminder-text { flex: 1; }
+    .reminder-text h4 { font-size: 0.95rem; font-weight: 700; color: var(--on-tertiary-fixed); margin-bottom: 2px; }
+    .reminder-text p { font-size: 0.82rem; color: var(--on-tertiary-fixed); opacity: 0.8; line-height: 1.4; }
+
     /* Sidebar greeting clickable */
     .sidebar-greeting { cursor: pointer; transition: transform 0.15s; border-radius: var(--radius); padding: 8px; margin: -8px; margin-bottom: 24px; }
     .sidebar-greeting:hover { transform: translateX(4px); background: rgba(134,73,88,0.04); }
@@ -806,8 +850,13 @@
         <a class="active" data-view="dashboard"><span class="material-symbols-outlined">grid_view</span> Dashboard</a>
         <a data-view="add"><span class="material-symbols-outlined">add_circle</span> Add Habits</a>
         <a data-view="stats"><span class="material-symbols-outlined">analytics</span> Statistics</a>
+        <a data-view="notes"><span class="material-symbols-outlined">sticky_note_2</span> Reminder Notes</a>
         <a data-view="settings"><span class="material-symbols-outlined">settings</span> Settings</a>
       </nav>
+      <div class="sidebar-bottom">
+        <button class="sidebar-dark-toggle" id="sidebarDarkToggle" aria-label="Toggle dark mode"><span class="material-symbols-outlined">dark_mode</span></button>
+        <span class="sidebar-dark-label">Dark Mode</span>
+      </div>
     </aside>
 
     <!-- Main Content -->
@@ -821,6 +870,9 @@
         </section>
 
         <div class="bento-grid">
+          <!-- Today's Reminders -->
+          <div class="dashboard-reminders fade-in" id="dashboardReminders"></div>
+
           <div class="goal-card fade-in fade-in-d1" id="goalCard">
             <div>
               <span class="label-tag">Daily Vitality</span>
@@ -914,8 +966,12 @@
                   <div class="ritual-input-wrap">
                     <input class="ritual-input" type="text" id="habitNameInput" placeholder="What will you name this growth?" maxlength="50" required>
                   </div>
-                  <div class="emoji-input-wrap">
-                    <input type="text" id="habitEmojiInput" placeholder="🌱" maxlength="4" aria-label="Emoji icon">
+                  <div class="emoji-input-wrap" id="emojiPickerToggle">
+                    <input type="hidden" id="habitEmojiInput" value="🌱">
+                    <span class="emoji-selected" id="emojiPreview">🌱</span>
+                    <div class="emoji-picker-dropdown" id="emojiPickerDropdown">
+                      <div class="emoji-picker-grid" id="emojiPickerGrid"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1031,6 +1087,37 @@
       <!-- ===== STATISTICS VIEW ===== -->
       <div class="view-page" id="viewStats">
         <div id="statsContent"></div>
+      </div>
+
+      <!-- ===== NOTES VIEW ===== -->
+      <div class="view-page" id="viewNotes">
+        <section class="notes-hero fade-in">
+          <h1>Reminder <span class="accent">Notes</span></h1>
+          <p>Set notes for specific dates. They'll appear on your dashboard when the day arrives.</p>
+        </section>
+
+        <div class="note-add-card fade-in fade-in-d1">
+          <h3><span class="material-symbols-outlined">add_circle</span> Add a Reminder</h3>
+          <div class="note-form-row">
+            <div class="note-form-field">
+              <label>Title</label>
+              <input type="text" id="noteTitle" placeholder="What to remember..." maxlength="80">
+            </div>
+            <div class="note-form-field" style="min-width:140px;flex:0 0 auto">
+              <label>Date</label>
+              <input type="date" id="noteDate">
+            </div>
+          </div>
+          <div class="note-form-row" style="margin-top:12px">
+            <div class="note-form-field">
+              <label>Details (optional)</label>
+              <textarea id="noteBody" placeholder="Add more details..." rows="2"></textarea>
+            </div>
+            <button class="note-add-btn" id="addNoteBtn">Add Note</button>
+          </div>
+        </div>
+
+        <div class="notes-list" id="notesList"></div>
       </div>
 
       <!-- ===== SETTINGS VIEW ===== -->
@@ -1153,6 +1240,7 @@
     <a class="active" data-view="dashboard"><span class="material-symbols-outlined">grid_view</span><span>Dashboard</span></a>
     <a data-view="add"><span class="material-symbols-outlined">add_circle</span><span>Add</span></a>
     <a data-view="stats"><span class="material-symbols-outlined">analytics</span><span>Stats</span></a>
+    <a data-view="notes"><span class="material-symbols-outlined">sticky_note_2</span><span>Notes</span></a>
     <a data-view="settings"><span class="material-symbols-outlined">settings</span><span>Settings</span></a>
   </nav>
 
@@ -1472,6 +1560,8 @@
       localStorage.setItem(DARK_KEY, isDark);
       const icon = document.querySelector('#darkToggle .material-symbols-outlined');
       if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      const sideIcon = document.querySelector('#sidebarDarkToggle .material-symbols-outlined');
+      if (sideIcon) sideIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
     }
 
     // ===== Goal Targets =====
@@ -1938,6 +2028,64 @@
       });
     }
 
+    // ===== Edit Habit =====
+    let editingHabitId = null;
+
+    function startEditHabit(id) {
+      const h = appState.habits.find(x => x.id === id);
+      if (!h) return;
+      editingHabitId = id;
+      document.getElementById('habitNameInput').value = h.name;
+      document.getElementById('habitEmojiInput').value = h.emoji;
+      document.getElementById('emojiPreview').textContent = h.emoji;
+      document.querySelectorAll('.emoji-pick-btn').forEach(b => b.classList.toggle('selected', b.dataset.emoji === h.emoji));
+      selectedColor = h.color || '#864958';
+      selectedCategory = h.category || 'health';
+      selectedDays = h.frequency ? [...h.frequency] : ['Mon','Tue','Wed','Thu','Fri'];
+      document.querySelectorAll('.color-option').forEach(o => { const s = o.dataset.color === selectedColor; o.classList.toggle('selected', s); o.setAttribute('aria-checked', s?'true':'false'); o.tabIndex = s ? 0 : -1; });
+      document.querySelectorAll('.category-chip').forEach(c => c.classList.toggle('selected', c.dataset.cat === selectedCategory));
+      document.querySelectorAll('.day-btn').forEach(b => b.classList.toggle('selected', selectedDays.includes(b.dataset.day)));
+      updateFreqNote();
+      // Update the form title and button text
+      const addHero = document.querySelector('.add-view-hero h1');
+      if (addHero) addHero.innerHTML = 'Edit your <span class="accent">ritual</span>';
+      const submitBtn = document.querySelector('#addHabitForm .btn-primary');
+      if (submitBtn) submitBtn.textContent = 'Save Changes';
+      switchView('add');
+    }
+
+    function saveEditHabit() {
+      const h = appState.habits.find(x => x.id === editingHabitId);
+      if (!h) return;
+      const name = document.getElementById('habitNameInput').value.trim();
+      if (!name) return;
+      h.name = name;
+      h.emoji = document.getElementById('habitEmojiInput').value.trim() || '🌱';
+      h.color = selectedColor;
+      h.category = selectedCategory;
+      h.frequency = selectedDays.length ? [...selectedDays] : ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      editingHabitId = null;
+      saveToStorage();
+      // Reset form title
+      const addHero = document.querySelector('.add-view-hero h1');
+      if (addHero) addHero.innerHTML = 'Create a new <span class="accent">ritual</span>';
+      const submitBtn = document.querySelector('#addHabitForm .btn-primary');
+      if (submitBtn) submitBtn.textContent = 'Create Ritual';
+      resetAddForm();
+      switchView('dashboard');
+      renderAll();
+    }
+
+    function cancelEdit() {
+      editingHabitId = null;
+      const addHero = document.querySelector('.add-view-hero h1');
+      if (addHero) addHero.innerHTML = 'Create a new <span class="accent">ritual</span>';
+      const submitBtn = document.querySelector('#addHabitForm .btn-primary');
+      if (submitBtn) submitBtn.textContent = 'Create Ritual';
+      resetAddForm();
+      switchView('dashboard');
+    }
+
     // ===== CRUD =====
     function addHabit(name, emoji, color, category, frequency) {
       appState.habits.push({
@@ -1967,7 +2115,7 @@
 
     // ===== View Management =====
     let currentView = 'dashboard';
-    const VIEW_MAP = { dashboard: 'viewDashboard', add: 'viewAdd', stats: 'viewStats', settings: 'viewSettings' };
+    const VIEW_MAP = { dashboard: 'viewDashboard', add: 'viewAdd', stats: 'viewStats', notes: 'viewNotes', settings: 'viewSettings' };
 
     function switchView(view) {
       if (!VIEW_MAP[view]) return;
@@ -1983,9 +2131,10 @@
       // FAB visibility — only on dashboard
       document.getElementById('fabBtn').style.display = view === 'dashboard' ? '' : 'none';
 
-      // Render stats/settings when switching
+      // Render stats/settings/notes when switching
       if (view === 'stats') renderStats();
       if (view === 'settings') renderSettings();
+      if (view === 'notes') renderNotes();
 
       // Scroll to top
       window.scrollTo(0, 0);
@@ -2032,6 +2181,7 @@
           </div>
           <div class="habit-item-right">
             <div class="habit-weekly">${weekly}</div>
+            <button class="edit-btn" aria-label="Edit ${escapeHtml(h.name)}" onclick="startEditHabit('${h.id}')"><span class="material-symbols-outlined">edit</span></button>
             <button class="delete-btn" aria-label="Delete ${escapeHtml(h.name)}" onclick="showDeleteConfirm('${h.id}')"><span class="material-symbols-outlined">delete</span></button>
             <button class="check-btn ${isDone?'checked':''}" aria-label="Mark ${escapeHtml(h.name)} as ${isDone?'not done':'done'}" onclick="toggleHabit('${h.id}')"><span class="material-symbols-outlined">${isDone?'check_circle':'check'}</span></button>
           </div></div>`;
@@ -2296,7 +2446,11 @@
               <span style="font-size:0.8rem;font-weight:700;color:var(--primary)">${performers.length} habit${performers.length!==1?'s':''}</span>
             </div>
             <div class="performers-grid">
-              ${performers.map((p, i) => `
+              ${performers.map((p, i) => {
+                const freq = p.frequency || ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+                const allDays = [{k:'Mon',l:'M'},{k:'Tue',l:'T'},{k:'Wed',l:'W'},{k:'Thu',l:'T'},{k:'Fri',l:'F'},{k:'Sat',l:'S'},{k:'Sun',l:'S'}];
+                const dayDots = allDays.map(d => `<span class="performer-day-dot ${freq.includes(d.k)?'active':'inactive'}">${d.l}</span>`).join('');
+                return `
                 <div class="performer-item" data-habit-id="${p.id}">
                   <div class="performer-icon" style="background:linear-gradient(135deg, ${p.color || perfColors[i%perfColors.length]}, ${p.color || perfColors[i%perfColors.length]}40)">${p.emoji}</div>
                   <div class="performer-info">
@@ -2307,9 +2461,10 @@
                       </div>
                       <span class="performer-pct" style="color:${p.color || perfColors[i%perfColors.length]}">${p.rate}%</span>
                     </div>
+                    <div class="performer-days">${dayDots}</div>
                   </div>
-                </div>
-              `).join('')}
+                </div>`;
+              }).join('')}
             </div>
           </div>
 
@@ -2481,7 +2636,82 @@
       if (ssBadges) ssBadges.textContent = Object.keys(unlockedBadges).length;
     }
 
-    function renderAll() { renderGreeting(); renderGoalCard(); renderStreakCard(); renderHabits(); renderInsight(); renderCompletion(); renderTrophyShelf(); renderSidebarProfile(); if (currentView === 'stats') renderStats(); if (currentView === 'settings') renderSettings(); }
+    // ===== Reminder Notes =====
+    const NOTES_KEY = 'radiantNotes_v1';
+    let reminderNotes = [];
+
+    function loadNotes() {
+      try { const r = localStorage.getItem(NOTES_KEY); if (r) reminderNotes = JSON.parse(r); } catch(e) { reminderNotes = []; }
+    }
+    function saveNotes() {
+      try { localStorage.setItem(NOTES_KEY, JSON.stringify(reminderNotes)); } catch(e) {}
+    }
+    function addNote(title, date, body) {
+      reminderNotes.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), title, date, body: body || '' });
+      reminderNotes.sort((a, b) => a.date.localeCompare(b.date));
+      saveNotes();
+    }
+    function deleteNote(id) {
+      reminderNotes = reminderNotes.filter(n => n.id !== id);
+      saveNotes();
+    }
+
+    function renderNotes() {
+      const list = document.getElementById('notesList');
+      if (!list) return;
+      const today = getTodayStr();
+      if (!reminderNotes.length) {
+        list.innerHTML = '<div class="notes-empty"><span class="material-symbols-outlined">sticky_note_2</span><p>No reminder notes yet. Add one above!</p></div>';
+        return;
+      }
+      let html = '';
+      reminderNotes.forEach(n => {
+        const isToday = n.date === today;
+        const isPast = n.date < today;
+        const dateObj = new Date(n.date + 'T12:00:00');
+        const day = dateObj.getDate();
+        const month = dateObj.toLocaleDateString('en-US', { month: 'short' });
+        html += `<div class="note-item${isToday ? ' today-note' : ''}${isPast ? ' past-note' : ''}" data-note-id="${n.id}">
+          <div class="note-date-badge">
+            <span class="note-day">${day}</span>
+            <span class="note-month">${month}</span>
+          </div>
+          <div class="note-content">
+            <h4>${escapeHtml(n.title)}${isToday ? ' <span style="font-size:0.7rem;color:var(--primary);font-weight:800">TODAY</span>' : ''}</h4>
+            ${n.body ? `<p>${escapeHtml(n.body)}</p>` : ''}
+          </div>
+          <button class="note-delete-btn" onclick="deleteNoteAndRender('${n.id}')" aria-label="Delete note"><span class="material-symbols-outlined">close</span></button>
+        </div>`;
+      });
+      list.innerHTML = html;
+    }
+
+    function deleteNoteAndRender(id) {
+      deleteNote(id);
+      renderNotes();
+      renderDashboardReminders();
+    }
+
+    function renderDashboardReminders() {
+      const el = document.getElementById('dashboardReminders');
+      if (!el) return;
+      const today = getTodayStr();
+      const todayNotes = reminderNotes.filter(n => n.date === today);
+      if (!todayNotes.length) { el.innerHTML = ''; return; }
+      let html = '';
+      todayNotes.forEach(n => {
+        html += `<div class="reminder-banner">
+          <div class="reminder-icon"><span class="material-symbols-outlined">notifications_active</span></div>
+          <div class="reminder-text">
+            <h4>${escapeHtml(n.title)}</h4>
+            ${n.body ? `<p>${escapeHtml(n.body)}</p>` : '<p>Reminder for today</p>'}
+          </div>
+        </div>`;
+      });
+      el.innerHTML = html;
+    }
+
+    function renderAll() { renderGreeting(); renderGoalCard(); renderStreakCard(); renderHabits(); renderInsight(); renderCompletion(); renderTrophyShelf(); renderSidebarProfile(); renderDashboardReminders(); if (currentView === 'stats') renderStats(); if (currentView === 'settings') renderSettings(); if (currentView === 'notes') renderNotes(); }
 
     // ===== Delete Confirm =====
     let pendingDeleteId = null;
@@ -2494,6 +2724,15 @@
     }
     function hideDeleteConfirm() { pendingDeleteId = null; document.getElementById('confirmOverlay').classList.add('hidden'); }
 
+    // ===== Emoji Picker =====
+    const EMOJI_LIST = ['🌱','🌸','💧','🏃','📖','🧘','✍️','🎯','💪','🧠','🎨','🎵','🍎','💊','🌙','☀️','🚶','🏋️','📝','🧹','🙏','❤️','🔥','⭐','🌈','🦋','🍵','📚','🎓','🏆'];
+
+    function initEmojiPicker() {
+      const grid = document.getElementById('emojiPickerGrid');
+      if (!grid) return;
+      grid.innerHTML = EMOJI_LIST.map(e => `<button type="button" class="emoji-pick-btn${e === '🌱' ? ' selected' : ''}" data-emoji="${e}">${e}</button>`).join('');
+    }
+
     // ===== Add Form State =====
     let selectedColor = '#864958';
     let selectedCategory = 'health';
@@ -2501,7 +2740,9 @@
 
     function resetAddForm() {
       document.getElementById('habitNameInput').value = '';
-      document.getElementById('habitEmojiInput').value = '';
+      document.getElementById('habitEmojiInput').value = '🌱';
+      document.getElementById('emojiPreview').textContent = '🌱';
+      document.querySelectorAll('.emoji-pick-btn').forEach(b => b.classList.toggle('selected', b.dataset.emoji === '🌱'));
       selectedColor = '#864958'; selectedCategory = 'health'; selectedDays = ['Mon','Tue','Wed','Thu','Fri'];
       document.querySelectorAll('.color-option').forEach(o => { const d = o.dataset.color === '#864958'; o.classList.toggle('selected', d); o.setAttribute('aria-checked', d?'true':'false'); o.tabIndex = d ? 0 : -1; });
       document.querySelectorAll('.category-chip').forEach(c => c.classList.toggle('selected', c.dataset.cat === 'health'));
@@ -2527,11 +2768,15 @@
       if (document.body.classList.contains('dark-mode')) {
         const icon = document.querySelector('#darkToggle .material-symbols-outlined');
         if (icon) icon.textContent = 'light_mode';
+        const sideIcon = document.querySelector('#sidebarDarkToggle .material-symbols-outlined');
+        if (sideIcon) sideIcon.textContent = 'light_mode';
       }
+      loadNotes();
       renderAll();
 
       // Dark mode toggle
       document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
+      document.getElementById('sidebarDarkToggle').addEventListener('click', toggleDarkMode);
 
       // View navigation (all data-view links)
       document.querySelectorAll('[data-view]').forEach(a => {
@@ -2545,7 +2790,7 @@
       document.getElementById('fabBtn').addEventListener('click', function() { resetAddForm(); switchView('add'); });
 
       // Discard button
-      document.getElementById('discardBtn').addEventListener('click', function() { resetAddForm(); switchView('dashboard'); });
+      document.getElementById('discardBtn').addEventListener('click', function() { if (editingHabitId) { cancelEdit(); } else { resetAddForm(); switchView('dashboard'); } });
 
       // Category chips
       document.getElementById('categoryChips').addEventListener('click', function(e) {
@@ -2584,18 +2829,43 @@
         item.addEventListener('click', function() {
           document.getElementById('habitNameInput').value = this.dataset.name;
           document.getElementById('habitEmojiInput').value = this.dataset.emoji;
+          document.getElementById('emojiPreview').textContent = this.dataset.emoji;
+          document.querySelectorAll('.emoji-pick-btn').forEach(b => b.classList.toggle('selected', b.dataset.emoji === item.dataset.emoji));
           const cat = this.dataset.cat;
           if (cat) { selectedCategory = cat; document.querySelectorAll('.category-chip').forEach(c => c.classList.toggle('selected', c.dataset.cat === cat)); }
           document.getElementById('habitNameInput').focus();
         });
       });
 
+      // Emoji picker
+      initEmojiPicker();
+      document.getElementById('emojiPickerToggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('emojiPickerDropdown').classList.toggle('open');
+      });
+      document.getElementById('emojiPickerGrid').addEventListener('click', function(e) {
+        const btn = e.target.closest('.emoji-pick-btn');
+        if (!btn) return;
+        e.stopPropagation();
+        const emoji = btn.dataset.emoji;
+        document.getElementById('habitEmojiInput').value = emoji;
+        document.getElementById('emojiPreview').textContent = emoji;
+        document.querySelectorAll('.emoji-pick-btn').forEach(b => b.classList.toggle('selected', b === btn));
+        document.getElementById('emojiPickerDropdown').classList.remove('open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#emojiPickerToggle')) {
+          document.getElementById('emojiPickerDropdown').classList.remove('open');
+        }
+      });
+
       // Submit add form
       document.getElementById('addHabitForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        if (editingHabitId) { saveEditHabit(); return; }
         const name = document.getElementById('habitNameInput').value.trim();
         if (!name) return;
-        const emoji = document.getElementById('habitEmojiInput').value.trim();
+        const emoji = document.getElementById('habitEmojiInput').value.trim() || '🌱';
         addHabit(name, emoji, selectedColor, selectedCategory, selectedDays.length ? [...selectedDays] : undefined);
         resetAddForm();
         switchView('dashboard');
@@ -2675,6 +2945,20 @@
       document.getElementById('reportTrigger').addEventListener('click', showWeeklyReport);
       document.getElementById('reportOverlay').addEventListener('click', function(e) { if (e.target === this) hideWeeklyReport(); });
 
+      // Add Note
+      document.getElementById('addNoteBtn').addEventListener('click', function() {
+        const title = document.getElementById('noteTitle').value.trim();
+        const date = document.getElementById('noteDate').value;
+        const body = document.getElementById('noteBody').value.trim();
+        if (!title || !date) return;
+        addNote(title, date, body);
+        document.getElementById('noteTitle').value = '';
+        document.getElementById('noteDate').value = '';
+        document.getElementById('noteBody').value = '';
+        renderNotes();
+        renderDashboardReminders();
+      });
+
       // Sidebar greeting → Settings
       document.getElementById('sidebarGreetingBtn').addEventListener('click', function() { switchView('settings'); });
 
@@ -2711,7 +2995,8 @@
           badges: unlockedBadges,
           personalBests: personalBests,
           goalTargets: goalTargets,
-          profile: userProfile
+          profile: userProfile,
+          notes: reminderNotes
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -2740,6 +3025,7 @@
             if (data.personalBests) { personalBests = data.personalBests; savePersonalBests(); }
             if (data.goalTargets) { goalTargets = data.goalTargets; saveGoalTargets(); }
             if (data.profile) { userProfile = data.profile; saveProfile(); }
+            if (data.notes) { reminderNotes = data.notes; saveNotes(); }
             renderAll();
             renderSettings();
             alert('Data imported successfully!');
@@ -2759,11 +3045,13 @@
         localStorage.removeItem(PB_KEY);
         localStorage.removeItem(GOALS_KEY);
         localStorage.removeItem(PROFILE_KEY);
+        localStorage.removeItem(NOTES_KEY);
         appState = { habits: [] };
         unlockedBadges = {};
         personalBests = {};
         goalTargets = {};
         userProfile = { name: '', avatar: '🌱' };
+        reminderNotes = [];
         renderAll();
         renderSettings();
       });
