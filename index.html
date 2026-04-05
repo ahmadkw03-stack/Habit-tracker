@@ -71,6 +71,18 @@
     /* ========== Top App Bar (hidden) ========== */
     .top-bar { display: none; }
 
+    /* ========== Theme Bar (top-right) ========== */
+    .theme-bar { position: fixed; top: 16px; right: 24px; z-index: 100; display: flex; align-items: center; gap: 8px; background: var(--surface-container-lowest); border-radius: 999px; padding: 6px 12px; box-shadow: var(--shadow-md); border: 1px solid var(--surface-container-high); }
+    .theme-bar-toggle { background: none; border: none; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--on-surface-variant); transition: all 0.15s; }
+    .theme-bar-toggle:hover { background: var(--surface-container-high); }
+    .theme-bar-divider { width: 1px; height: 22px; background: var(--outline-variant); margin: 0 4px; }
+    .theme-bar-colors { display: flex; align-items: center; gap: 5px; }
+    .theme-color-btn { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; padding: 0; position: relative; }
+    .theme-color-btn:hover { transform: scale(1.2); }
+    .theme-color-btn.active { border-color: var(--on-surface); box-shadow: 0 0 0 2px var(--surface-container-lowest); }
+    .theme-bar-label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--outline); padding: 0 2px; }
+    @media (max-width: 1023px) { .theme-bar { top: auto; bottom: 80px; right: 16px; } }
+
     /* ========== App Layout ========== */
     .app-layout { display: flex; padding-top: 0; min-height: 100vh; }
 
@@ -887,6 +899,19 @@
       </div>
     </aside>
 
+    <!-- Theme Bar -->
+    <div class="theme-bar" id="themeBar">
+      <button class="theme-bar-toggle" id="themeBarDarkToggle" aria-label="Toggle dark mode">
+        <span class="material-symbols-outlined">dark_mode</span>
+      </button>
+      <div class="theme-bar-divider"></div>
+      <span class="theme-bar-label">Light</span>
+      <div class="theme-bar-colors" id="themeColorsLight"></div>
+      <div class="theme-bar-divider"></div>
+      <span class="theme-bar-label">Dark</span>
+      <div class="theme-bar-colors" id="themeColorsDark"></div>
+    </div>
+
     <!-- Main Content -->
     <main class="main-content">
 
@@ -1607,6 +1632,97 @@
       if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
       const sideIcon = document.querySelector('#sidebarDarkToggle .material-symbols-outlined');
       if (sideIcon) sideIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      const themeIcon = document.querySelector('#themeBarDarkToggle .material-symbols-outlined');
+      if (themeIcon) themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+    }
+
+    // ===== Color Themes =====
+    const THEME_KEY = 'radiantColorTheme';
+    const COLOR_THEMES = {
+      'rose-light':    { swatch: '#864958', primary: '#864958', primaryDim: '#783e4c', primaryContainer: '#ffb1c1', onPrimary: '#ffeff0', onPrimaryContainer: '#662f3d', secondary: '#785342', secondaryContainer: '#ffccb6', onSecondary: '#fff0ea', onSecondaryContainer: '#664232', tertiary: '#75525b', tertiaryContainer: '#ffd1dc', onTertiary: '#ffeff1', onTertiaryFixed: '#52333c', onTertiaryContainer: '#66454e', surface: '#fef4f4', surfaceLow: '#f9eeee', surfaceHigh: '#ebe0e0', surfaceHighest: '#e5dadb', surfaceLowest: '#ffffff', onSurface: '#322d2e', onSurfaceVariant: '#605a5a', outline: '#7c7575', outlineVariant: '#b3abab' },
+      'lavender-light':{ swatch: '#6B5B8A', primary: '#6B5B8A', primaryDim: '#5d4e7a', primaryContainer: '#d4c4f5', onPrimary: '#f5f0ff', onPrimaryContainer: '#4a3d6a', secondary: '#6b5f72', secondaryContainer: '#e8d8f0', onSecondary: '#f8f2fc', onSecondaryContainer: '#524860', tertiary: '#7a5275', tertiaryContainer: '#f5d1f0', onTertiary: '#fff0fc', onTertiaryFixed: '#5a3356', onTertiaryContainer: '#6a4566', surface: '#f8f4fe', surfaceLow: '#f2edfa', surfaceHigh: '#e4dff0', surfaceHighest: '#ddd8ea', surfaceLowest: '#ffffff', onSurface: '#2e2b34', onSurfaceVariant: '#5a5660', outline: '#756f7c', outlineVariant: '#aea8b5' },
+      'ocean-light':   { swatch: '#4A6B8A', primary: '#4A6B8A', primaryDim: '#3d5e7d', primaryContainer: '#b1d4f5', onPrimary: '#eff6ff', onPrimaryContainer: '#2f506a', secondary: '#4d6370', secondaryContainer: '#c6dce8', onSecondary: '#f0f7fb', onSecondaryContainer: '#3d5260', tertiary: '#52707a', tertiaryContainer: '#c8e6f0', onTertiary: '#f0faff', onTertiaryFixed: '#335058', onTertiaryContainer: '#446068', surface: '#f4f8fe', surfaceLow: '#eef4fa', surfaceHigh: '#e0e8f0', surfaceHighest: '#d9e2eb', surfaceLowest: '#ffffff', onSurface: '#2b3035', onSurfaceVariant: '#555d62', outline: '#707a80', outlineVariant: '#a8b2b8' },
+      'forest-light':  { swatch: '#5B7A5E', primary: '#5B7A5E', primaryDim: '#4e6d51', primaryContainer: '#b8debb', onPrimary: '#f0fff1', onPrimaryContainer: '#3d5e40', secondary: '#5c6e5d', secondaryContainer: '#c4dcc5', onSecondary: '#f2faf2', onSecondaryContainer: '#4a5c4b', tertiary: '#527052', tertiaryContainer: '#c5e8c5', onTertiary: '#f0fff0', onTertiaryFixed: '#3a5a3a', onTertiaryContainer: '#466046', surface: '#f5faf5', surfaceLow: '#eff5ef', surfaceHigh: '#e2ece2', surfaceHighest: '#dbe6db', surfaceLowest: '#ffffff', onSurface: '#2d322d', onSurfaceVariant: '#575e57', outline: '#727a72', outlineVariant: '#abb3ab' },
+      'amber-light':   { swatch: '#8A7242', primary: '#8A7242', primaryDim: '#7d6538', primaryContainer: '#f5deb1', onPrimary: '#fff8ef', onPrimaryContainer: '#6a5530', secondary: '#78694e', secondaryContainer: '#eddcc0', onSecondary: '#fdf6ec', onSecondaryContainer: '#665840', tertiary: '#7a6a42', tertiaryContainer: '#f0dec0', onTertiary: '#fff8ee', onTertiaryFixed: '#5a4a28', onTertiaryContainer: '#6a5a38', surface: '#fefaf4', surfaceLow: '#faf5ee', surfaceHigh: '#f0e8de', surfaceHighest: '#eae2d8', surfaceLowest: '#ffffff', onSurface: '#322e28', onSurfaceVariant: '#605b52', outline: '#7c7568', outlineVariant: '#b3ab9e' },
+      'rose-dark':     { swatch: '#ffb1c1', primary: '#ffb1c1', primaryDim: '#ffa0b2', primaryContainer: '#6e3344', onPrimary: '#3e1524', onPrimaryContainer: '#ffd9e0', secondary: '#ffccb6', secondaryContainer: '#5c3c2e', onSecondary: '#3b2112', onSecondaryContainer: '#ffdcc9', tertiary: '#ffd1dc', tertiaryContainer: '#5c3644', onTertiary: '#3f1928', onTertiaryFixed: '#ffd9e2', onTertiaryContainer: '#ffd9e2', surface: '#1a1517', surfaceLow: '#211c1e', surfaceHigh: '#332d2f', surfaceHighest: '#3e3739', surfaceLowest: '#121011', onSurface: '#ece0e1', onSurfaceVariant: '#d4c8c9', outline: '#9d9192', outlineVariant: '#504849' },
+      'lavender-dark': { swatch: '#d4c4f5', primary: '#d4c4f5', primaryDim: '#c4b0f0', primaryContainer: '#4a3666', onPrimary: '#1e1030', onPrimaryContainer: '#e8dcff', secondary: '#e0d0e8', secondaryContainer: '#4a3c55', onSecondary: '#201528', onSecondaryContainer: '#f0e2f8', tertiary: '#f0c0e8', tertiaryContainer: '#5a3050', onTertiary: '#2a0e24', onTertiaryFixed: '#f5d0f0', onTertiaryContainer: '#f5d0f0', surface: '#181520', surfaceLow: '#1e1b28', surfaceHigh: '#302c3a', surfaceHighest: '#3b3644', surfaceLowest: '#100e18', onSurface: '#e8e0f0', onSurfaceVariant: '#cec6d8', outline: '#968ea0', outlineVariant: '#484050' },
+      'ocean-dark':    { swatch: '#b1d4f5', primary: '#b1d4f5', primaryDim: '#98c4f0', primaryContainer: '#2e4f6e', onPrimary: '#0e2438', onPrimaryContainer: '#d0e8ff', secondary: '#c0d8e8', secondaryContainer: '#354858', onSecondary: '#122030', onSecondaryContainer: '#d8ecf8', tertiary: '#b8e0f0', tertiaryContainer: '#2a4a58', onTertiary: '#0e2830', onTertiaryFixed: '#d0f0ff', onTertiaryContainer: '#d0f0ff', surface: '#141a20', surfaceLow: '#1a2228', surfaceHigh: '#2a343c', surfaceHighest: '#353f48', surfaceLowest: '#0e1418', onSurface: '#e0e8f0', onSurfaceVariant: '#c4ccd4', outline: '#8a949c', outlineVariant: '#404a52' },
+      'forest-dark':   { swatch: '#b8debb', primary: '#b8debb', primaryDim: '#a0d0a4', primaryContainer: '#345838', onPrimary: '#0e280e', onPrimaryContainer: '#d0f5d0', secondary: '#c0d8c2', secondaryContainer: '#384a3a', onSecondary: '#142014', onSecondaryContainer: '#d8f0da', tertiary: '#b0d8b0', tertiaryContainer: '#2a4a2a', onTertiary: '#0e280e', onTertiaryFixed: '#d0f0d0', onTertiaryContainer: '#d0f0d0', surface: '#141a14', surfaceLow: '#1a221a', surfaceHigh: '#2c342c', surfaceHighest: '#363e36', surfaceLowest: '#0e120e', onSurface: '#e0ece0', onSurfaceVariant: '#c4d0c4', outline: '#8a968a', outlineVariant: '#404a40' },
+      'amber-dark':    { swatch: '#f5deb1', primary: '#f5deb1', primaryDim: '#f0d098', primaryContainer: '#5c4820', onPrimary: '#2a1e08', onPrimaryContainer: '#fff0d0', secondary: '#e8d8c0', secondaryContainer: '#4a3c25', onSecondary: '#281e0a', onSecondaryContainer: '#f8ecd8', tertiary: '#f0d8a8', tertiaryContainer: '#504020', onTertiary: '#281e08', onTertiaryFixed: '#f8e8c0', onTertiaryContainer: '#f8e8c0', surface: '#1a1814', surfaceLow: '#22201a', surfaceHigh: '#353230', surfaceHighest: '#403c38', surfaceLowest: '#12100e', onSurface: '#ece6de', onSurfaceVariant: '#d4ccc2', outline: '#9c9488', outlineVariant: '#504840' }
+    };
+
+    function applyColorTheme(themeId) {
+      const t = COLOR_THEMES[themeId];
+      if (!t) return;
+      const s = document.body.style;
+      s.setProperty('--primary', t.primary);
+      s.setProperty('--primary-dim', t.primaryDim);
+      s.setProperty('--primary-container', t.primaryContainer);
+      s.setProperty('--on-primary', t.onPrimary);
+      s.setProperty('--on-primary-container', t.onPrimaryContainer);
+      s.setProperty('--secondary', t.secondary);
+      s.setProperty('--secondary-container', t.secondaryContainer);
+      s.setProperty('--on-secondary', t.onSecondary);
+      s.setProperty('--on-secondary-container', t.onSecondaryContainer);
+      s.setProperty('--tertiary', t.tertiary);
+      s.setProperty('--tertiary-container', t.tertiaryContainer);
+      s.setProperty('--on-tertiary', t.onTertiary);
+      s.setProperty('--on-tertiary-fixed', t.onTertiaryFixed);
+      s.setProperty('--on-tertiary-container', t.onTertiaryContainer);
+      s.setProperty('--surface', t.surface);
+      s.setProperty('--surface-container-low', t.surfaceLow);
+      s.setProperty('--surface-container-high', t.surfaceHigh);
+      s.setProperty('--surface-container-highest', t.surfaceHighest);
+      s.setProperty('--surface-container-lowest', t.surfaceLowest);
+      s.setProperty('--on-surface', t.onSurface);
+      s.setProperty('--on-surface-variant', t.onSurfaceVariant);
+      s.setProperty('--outline', t.outline);
+      s.setProperty('--outline-variant', t.outlineVariant);
+      // Apply dark mode class for dark themes
+      const isDark = themeId.endsWith('-dark');
+      document.body.classList.toggle('dark-mode', isDark);
+      localStorage.setItem(DARK_KEY, isDark);
+      // Update all dark mode icons
+      const icons = ['#darkToggle', '#sidebarDarkToggle', '#themeBarDarkToggle'];
+      icons.forEach(sel => { const ic = document.querySelector(sel + ' .material-symbols-outlined'); if (ic) ic.textContent = isDark ? 'light_mode' : 'dark_mode'; });
+      // Update settings toggle if exists
+      const st = document.getElementById('settingsDarkToggle');
+      if (st) st.checked = isDark;
+      // Update active swatch
+      document.querySelectorAll('.theme-color-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === themeId));
+      localStorage.setItem(THEME_KEY, themeId);
+    }
+
+    function loadColorTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved && COLOR_THEMES[saved]) applyColorTheme(saved);
+    }
+
+    function initThemeBar() {
+      const lightContainer = document.getElementById('themeColorsLight');
+      const darkContainer = document.getElementById('themeColorsDark');
+      const saved = localStorage.getItem(THEME_KEY) || 'rose-light';
+      const lightThemes = ['rose-light','lavender-light','ocean-light','forest-light','amber-light'];
+      const darkThemes = ['rose-dark','lavender-dark','ocean-dark','forest-dark','amber-dark'];
+      lightThemes.forEach(id => {
+        const btn = document.createElement('button');
+        btn.className = 'theme-color-btn' + (id === saved ? ' active' : '');
+        btn.dataset.theme = id;
+        btn.style.background = COLOR_THEMES[id].swatch;
+        btn.title = id.replace('-light','').replace(/^\w/, c => c.toUpperCase());
+        btn.addEventListener('click', function() { applyColorTheme(id); });
+        lightContainer.appendChild(btn);
+      });
+      darkThemes.forEach(id => {
+        const btn = document.createElement('button');
+        btn.className = 'theme-color-btn' + (id === saved ? ' active' : '');
+        btn.dataset.theme = id;
+        btn.style.background = COLOR_THEMES[id].swatch;
+        btn.title = id.replace('-dark','').replace(/^\w/, c => c.toUpperCase());
+        btn.addEventListener('click', function() { applyColorTheme(id); });
+        darkContainer.appendChild(btn);
+      });
+      document.getElementById('themeBarDarkToggle').addEventListener('click', toggleDarkMode);
     }
 
     // ===== Goal Targets =====
@@ -2817,6 +2933,13 @@
         if (sideIcon) sideIcon.textContent = 'light_mode';
       }
       loadNotes();
+      initThemeBar();
+      loadColorTheme();
+      // Sync theme bar dark icon on load
+      if (document.body.classList.contains('dark-mode')) {
+        const tbIcon = document.querySelector('#themeBarDarkToggle .material-symbols-outlined');
+        if (tbIcon) tbIcon.textContent = 'light_mode';
+      }
       renderAll();
 
       // Dark mode toggle
