@@ -254,6 +254,10 @@
     .habit-item-info { flex: 1; min-width: 0; }
     .habit-item-info h4 { font-size: 1rem; font-weight: 700; color: var(--on-surface); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .habit-item-info .habit-meta { font-size: 0.82rem; color: var(--on-surface-variant); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+    .habit-week-progress { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+    .habit-week-bar { flex: 1; height: 4px; background: var(--surface-container-high); border-radius: 999px; overflow: hidden; max-width: 100px; }
+    .habit-week-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-container)); border-radius: 999px; transition: width 0.4s ease; }
+    .habit-week-label { font-size: 0.7rem; font-weight: 700; color: var(--outline); white-space: nowrap; }
     .habit-item.completed .habit-item-info h4 { text-decoration: line-through; color: var(--on-surface-variant); }
     .habit-item.completed { opacity: 0.55; }
     .habit-item-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -755,6 +759,58 @@
     .trophy-item.unlocked::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--primary-container)); }
     .trophy-unlocked-date { font-size: 0.58rem; color: var(--outline); margin-top: 6px; font-weight: 600; }
 
+    /* ========== Stats Achievement Wall ========== */
+    .stats-achievement-wall { margin-top: 32px; }
+    .stats-achievement-wall > h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .stats-achievement-wall > h3 .material-symbols-outlined { color: var(--primary); font-size: 22px; font-variation-settings: 'FILL' 1; }
+    .achievement-wall-count { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-left: auto; }
+    .achievement-wall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+    @media (min-width: 768px) { .achievement-wall-grid { grid-template-columns: repeat(3, 1fr); } }
+    .achievement-badge { background: var(--surface-container-lowest); border-radius: var(--radius); padding: 24px 16px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .achievement-badge:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .achievement-badge.unlocked::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #ffd700, #ffb700, #ffd700); }
+    .achievement-badge.unlocked { box-shadow: 0 2px 12px rgba(255,215,0,0.15); }
+    .achievement-badge.locked { opacity: 0.45; filter: grayscale(0.6); }
+    .achievement-badge.locked:hover { transform: none; box-shadow: none; }
+    .achievement-badge-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
+    .achievement-badge-name { font-size: 0.82rem; font-weight: 700; color: var(--on-surface); margin-bottom: 3px; }
+    .achievement-badge-desc { font-size: 0.65rem; color: var(--on-surface-variant); line-height: 1.4; }
+    .achievement-badge-date { font-size: 0.58rem; color: #b8860b; margin-top: 6px; font-weight: 700; }
+    .achievement-badge-progress { font-size: 0.6rem; color: var(--outline); margin-top: 6px; font-weight: 600; font-style: italic; }
+
+    /* ========== Mood Check-in ========== */
+    .mood-checkin { background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+    .mood-checkin-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .mood-checkin-header .material-symbols-outlined { font-size: 24px; color: var(--primary); font-variation-settings: 'FILL' 1; }
+    .mood-checkin-header h3 { font-size: 1.05rem; font-weight: 700; }
+    .mood-scale { display: flex; gap: 10px; justify-content: center; }
+    .mood-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 14px; border-radius: var(--radius); border: 2px solid var(--surface-container-high); background: var(--surface-container-low); cursor: pointer; transition: all 0.15s; flex: 1; max-width: 80px; }
+    .mood-btn:hover { border-color: var(--primary-container); transform: translateY(-2px); }
+    .mood-btn.selected { border-color: var(--primary); background: var(--primary-container); }
+    .mood-btn-emoji { font-size: 1.5rem; line-height: 1; }
+    .mood-btn-label { font-size: 0.6rem; font-weight: 700; color: var(--on-surface-variant); text-transform: uppercase; letter-spacing: 0.04em; }
+    .mood-btn.selected .mood-btn-label { color: var(--on-primary-container); }
+    .mood-checkin.done .mood-scale { display: none; }
+    .mood-done-msg { display: none; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--on-surface-variant); }
+    .mood-checkin.done .mood-done-msg { display: flex; }
+    .mood-done-emoji { font-size: 1.5rem; }
+    .mood-done-text { font-weight: 600; }
+    .mood-change-btn { background: none; border: none; color: var(--primary); font-size: 0.75rem; font-weight: 700; cursor: pointer; margin-left: auto; font-family: inherit; }
+
+    /* Mood Correlation in Stats */
+    .mood-correlation-card { background: var(--surface-container-lowest); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); margin-top: 20px; }
+    .mood-correlation-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .mood-correlation-card h3 .material-symbols-outlined { color: var(--primary); font-size: 20px; }
+    .mood-corr-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .mood-corr-emoji { font-size: 1.2rem; width: 28px; text-align: center; flex-shrink: 0; }
+    .mood-corr-bar-track { flex: 1; height: 8px; background: var(--surface-container-high); border-radius: 999px; overflow: hidden; }
+    .mood-corr-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-container)); border-radius: 999px; transition: width 0.4s ease; }
+    .mood-corr-pct { font-size: 0.75rem; font-weight: 700; color: var(--on-surface-variant); width: 36px; text-align: right; flex-shrink: 0; }
+    .mood-corr-insight { font-size: 0.85rem; color: var(--on-surface-variant); line-height: 1.5; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--surface-container-high); font-style: italic; }
+    .mood-avg { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 10px 16px; background: var(--surface-container-low); border-radius: var(--radius); }
+    .mood-avg-label { font-size: 0.75rem; font-weight: 700; color: var(--on-surface-variant); text-transform: uppercase; letter-spacing: 0.04em; }
+    .mood-avg-val { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+
     /* ========== Personal Best Toast ========== */
     .pb-toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-120px); z-index: 200; background: linear-gradient(135deg, var(--primary), var(--primary-container)); color: white; padding: 14px 24px; border-radius: 999px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 8px 32px rgba(134,73,88,0.4); display: flex; align-items: center; gap: 10px; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); white-space: nowrap; pointer-events: none; }
     .pb-toast.show { transform: translateX(-50%) translateY(0); pointer-events: auto; }
@@ -1001,6 +1057,26 @@
           <h1>Ready to <span class="accent">bloom</span>?</h1>
           <p>Today is a fresh canvas. Your small steps are turning into beautiful journeys.</p>
         </section>
+
+        <!-- Mood Check-in -->
+        <div class="mood-checkin fade-in" id="moodCheckin">
+          <div class="mood-checkin-header">
+            <span class="material-symbols-outlined">mood</span>
+            <h3>How are you feeling today?</h3>
+          </div>
+          <div class="mood-scale" id="moodScale">
+            <button class="mood-btn" data-mood="1"><span class="mood-btn-emoji">😴</span><span class="mood-btn-label">Low</span></button>
+            <button class="mood-btn" data-mood="2"><span class="mood-btn-emoji">😕</span><span class="mood-btn-label">Meh</span></button>
+            <button class="mood-btn" data-mood="3"><span class="mood-btn-emoji">😊</span><span class="mood-btn-label">Okay</span></button>
+            <button class="mood-btn" data-mood="4"><span class="mood-btn-emoji">😄</span><span class="mood-btn-label">Good</span></button>
+            <button class="mood-btn" data-mood="5"><span class="mood-btn-emoji">🔥</span><span class="mood-btn-label">Great</span></button>
+          </div>
+          <div class="mood-done-msg">
+            <span class="mood-done-emoji" id="moodDoneEmoji"></span>
+            <span class="mood-done-text" id="moodDoneText"></span>
+            <button class="mood-change-btn" id="moodChangeBtn">Change</button>
+          </div>
+        </div>
 
         <div class="bento-grid">
           <!-- Today's Reminders -->
@@ -1652,6 +1728,65 @@
       }
     }
 
+    // ===== Mood Check-in =====
+    const MOOD_KEY = 'radiantMoodLog_v1';
+    let moodLog = {};
+    const MOOD_EMOJIS = ['', '😴', '😕', '😊', '😄', '🔥'];
+    const MOOD_LABELS = ['', 'Low', 'Meh', 'Okay', 'Good', 'Great'];
+
+    function loadMoodLog() {
+      try { const r = localStorage.getItem(MOOD_KEY); if (r) moodLog = JSON.parse(r); } catch(e) { moodLog = {}; }
+    }
+    function saveMoodLog() {
+      try { localStorage.setItem(MOOD_KEY, JSON.stringify(moodLog)); } catch(e) {}
+    }
+    function setMood(level) {
+      moodLog[getTodayStr()] = { mood: level, timestamp: Date.now() };
+      saveMoodLog();
+      renderMoodCheckin();
+    }
+    function renderMoodCheckin() {
+      const card = document.getElementById('moodCheckin');
+      if (!card) return;
+      const today = getTodayStr();
+      const todayMood = moodLog[today];
+      if (todayMood) {
+        card.classList.add('done');
+        document.getElementById('moodDoneEmoji').textContent = MOOD_EMOJIS[todayMood.mood];
+        document.getElementById('moodDoneText').textContent = `You're feeling ${MOOD_LABELS[todayMood.mood]} today`;
+        // Highlight selected button
+        document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.mood) === todayMood.mood));
+      } else {
+        card.classList.remove('done');
+        document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected'));
+      }
+    }
+    function getMoodCorrelation(days) {
+      const results = { 1: { total: 0, completionSum: 0 }, 2: { total: 0, completionSum: 0 }, 3: { total: 0, completionSum: 0 }, 4: { total: 0, completionSum: 0 }, 5: { total: 0, completionSum: 0 } };
+      const now = new Date();
+      let totalMoodDays = 0, moodSum = 0;
+      for (let i = 0; i < days; i++) {
+        const d = new Date(now); d.setDate(d.getDate() - i);
+        const ds = getDateStr(d);
+        const m = moodLog[ds];
+        if (!m) continue;
+        totalMoodDays++;
+        moodSum += m.mood;
+        const active = appState.habits.filter(h => ds >= h.createdAt);
+        if (!active.length) continue;
+        const done = active.filter(h => h.completions[ds]).length;
+        const rate = done / active.length * 100;
+        results[m.mood].total++;
+        results[m.mood].completionSum += rate;
+      }
+      const avgMood = totalMoodDays > 0 ? (moodSum / totalMoodDays).toFixed(1) : null;
+      const perLevel = {};
+      for (let lvl = 1; lvl <= 5; lvl++) {
+        perLevel[lvl] = results[lvl].total > 0 ? Math.round(results[lvl].completionSum / results[lvl].total) : null;
+      }
+      return { avgMood, perLevel, totalMoodDays };
+    }
+
     // ===== Achievement Badges =====
     const BADGES_KEY = 'radiantBadges_v1';
     let unlockedBadges = {};
@@ -1748,6 +1883,80 @@
           <div class="trophy-desc">${b.desc}</div>
         </div>`;
       });
+      html += '</div>';
+      el.innerHTML = html;
+    }
+
+    // ===== Stats Achievement Wall =====
+    function getBadgeProgress(badge) {
+      if (badge.id === 'seed_planter') return `${appState.habits.length}/1 habit`;
+      if (badge.id === 'first_step') return `${Math.min(getTotalCompletions(), 1)}/1 completion`;
+      if (badge.id === 'streak_3') { const best = appState.habits.length ? Math.max(...appState.habits.map(h => getBestStreak(h))) : 0; return `${best}/3 day streak`; }
+      if (badge.id === 'streak_7') { const best = appState.habits.length ? Math.max(...appState.habits.map(h => getBestStreak(h))) : 0; return `${best}/7 day streak`; }
+      if (badge.id === 'streak_14') { const best = appState.habits.length ? Math.max(...appState.habits.map(h => getBestStreak(h))) : 0; return `${best}/14 day streak`; }
+      if (badge.id === 'streak_30') { const best = appState.habits.length ? Math.max(...appState.habits.map(h => getBestStreak(h))) : 0; return `${best}/30 day streak`; }
+      if (badge.id === 'five_habits') return `${appState.habits.length}/5 habits`;
+      if (badge.id === 'century') return `${getTotalCompletions()}/100 completions`;
+      return 'Not yet achieved';
+    }
+
+    function renderStatsAchievements() {
+      const el = document.getElementById('statsAchievementWall');
+      if (!el) return;
+      checkBadges();
+      const unlocked = BADGES.filter(b => unlockedBadges[b.id]);
+      const locked = BADGES.filter(b => !unlockedBadges[b.id]);
+      let html = '<div class="achievement-wall-grid">';
+      unlocked.forEach(b => {
+        const dateLabel = new Date(unlockedBadges[b.id] + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        html += `<div class="achievement-badge unlocked">
+          <span class="achievement-badge-icon">${b.icon}</span>
+          <div class="achievement-badge-name">${b.name}</div>
+          <div class="achievement-badge-desc">${b.desc}</div>
+          <div class="achievement-badge-date">Earned ${dateLabel}</div>
+        </div>`;
+      });
+      locked.forEach(b => {
+        html += `<div class="achievement-badge locked">
+          <span class="achievement-badge-icon">🔒</span>
+          <div class="achievement-badge-name">${b.name}</div>
+          <div class="achievement-badge-desc">${b.desc}</div>
+          <div class="achievement-badge-progress">${getBadgeProgress(b)}</div>
+        </div>`;
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    }
+
+    // ===== Stats Mood Correlation =====
+    function renderStatsMoodCorrelation() {
+      const el = document.getElementById('statsMoodCorrelation');
+      if (!el) return;
+      const rangeDays = getStatsRangeDays ? getStatsRangeDays() : 30;
+      const corr = getMoodCorrelation(rangeDays);
+      if (!corr.totalMoodDays || corr.totalMoodDays < 1) {
+        el.innerHTML = '<div class="mood-correlation-card"><h3><span class="material-symbols-outlined">mood</span> Mood × Habits</h3><p style="font-size:0.85rem;color:var(--on-surface-variant)">Log your mood on the dashboard to see how it correlates with your habits.</p></div>';
+        return;
+      }
+      let html = '<div class="mood-correlation-card"><h3><span class="material-symbols-outlined">mood</span> Mood × Habits</h3>';
+      html += `<div class="mood-avg"><span class="mood-avg-label">Avg Mood</span><span class="mood-avg-val">${corr.avgMood}</span><span style="font-size:1.2rem">${MOOD_EMOJIS[Math.round(parseFloat(corr.avgMood))]}</span></div>`;
+      for (let lvl = 5; lvl >= 1; lvl--) {
+        const pct = corr.perLevel[lvl];
+        html += `<div class="mood-corr-row">
+          <span class="mood-corr-emoji">${MOOD_EMOJIS[lvl]}</span>
+          <div class="mood-corr-bar-track"><div class="mood-corr-bar-fill" style="width:${pct !== null ? pct : 0}%"></div></div>
+          <span class="mood-corr-pct">${pct !== null ? pct + '%' : '—'}</span>
+        </div>`;
+      }
+      // Generate insight
+      const highMood = corr.perLevel[5] || corr.perLevel[4];
+      const lowMood = corr.perLevel[1] || corr.perLevel[2];
+      if (highMood !== null && lowMood !== null && highMood > lowMood) {
+        const ratio = lowMood > 0 ? (highMood / lowMood).toFixed(1) : 'much';
+        html += `<div class="mood-corr-insight">You complete ${ratio}x more habits on high-energy days compared to low-energy days.</div>`;
+      } else if (corr.totalMoodDays >= 3) {
+        html += `<div class="mood-corr-insight">Keep logging your mood to reveal deeper patterns between energy and habits.</div>`;
+      }
       html += '</div>';
       el.innerHTML = html;
     }
@@ -2616,6 +2825,7 @@
             <div class="habit-item-info">
               <h4>${escapeHtml(h.name)}</h4>
               <div class="habit-meta">${streak > 0 ? `<span class="fire-icon">🔥</span> ${streak} day streak` : 'No streak yet'}${best > 1 ? ` · Best: ${best}` : ''}${(streak > 0 && streak === best && best > 1) ? ' · <span class="pb-badge">✨ Personal Best!</span>' : ''}</div>
+              <div class="habit-week-progress"><div class="habit-week-bar"><div class="habit-week-fill" style="width:${Math.round(last7.filter(ds => h.completions[ds]).length / 7 * 100)}%"></div></div><span class="habit-week-label">${last7.filter(ds => h.completions[ds]).length}/7 this week</span></div>
             </div>
           </div>
           <div class="habit-item-right">
@@ -3116,6 +3326,15 @@
           </div>
         </div>
 
+        <!-- Achievement Wall -->
+        <div class="stats-achievement-wall fade-in">
+          <h3><span class="material-symbols-outlined">emoji_events</span> Achievement Wall <span class="achievement-wall-count">${Object.keys(unlockedBadges).length}/${BADGES.length}</span></h3>
+          <div id="statsAchievementWall"></div>
+        </div>
+
+        <!-- Mood Correlation -->
+        <div id="statsMoodCorrelation" class="fade-in"></div>
+
         <!-- Per-Habit Heatmap -->
         <div class="per-habit-heatmap fade-in">
           <h3><span class="material-symbols-outlined">grid_on</span> Habit Heatmap</h3>
@@ -3131,6 +3350,8 @@
       `;
 
       container.innerHTML = html;
+      renderStatsAchievements();
+      renderStatsMoodCorrelation();
       renderPerHabitHeatmap('all');
       renderJournalTimeline();
       animateStatsNumbers();
@@ -3295,7 +3516,7 @@
       el.innerHTML = html;
     }
 
-    function renderAll() { renderGreeting(); renderGoalCard(); renderStreakCard(); renderHabits(); renderInsight(); renderCompletion(); renderTrophyShelf(); renderSidebarProfile(); renderDashboardReminders(); if (currentView === 'stats') renderStats(); if (currentView === 'settings') renderSettings(); if (currentView === 'notes') renderNotes(); }
+    function renderAll() { renderGreeting(); renderGoalCard(); renderStreakCard(); renderHabits(); renderInsight(); renderCompletion(); renderTrophyShelf(); renderMoodCheckin(); renderSidebarProfile(); renderDashboardReminders(); if (currentView === 'stats') renderStats(); if (currentView === 'settings') renderSettings(); if (currentView === 'notes') renderNotes(); }
 
     // ===== Delete Confirm =====
     let pendingDeleteId = null;
@@ -3358,6 +3579,7 @@
       loadNotes();
       loadStreakFreeze();
       loadHabitNotes();
+      loadMoodLog();
       initThemeBar();
       loadColorTheme();
       // Sync theme bar dark icon on load
@@ -3668,7 +3890,8 @@
           profile: userProfile,
           notes: reminderNotes,
           streakFreeze: streakFreezeData,
-          habitNotes: habitNotes
+          habitNotes: habitNotes,
+          moodLog: moodLog
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -3700,6 +3923,7 @@
             if (data.notes) { reminderNotes = data.notes; saveNotes(); }
             if (data.streakFreeze) { streakFreezeData = data.streakFreeze; saveStreakFreeze(); }
             if (data.habitNotes) { habitNotes = data.habitNotes; saveHabitNotes(); }
+            if (data.moodLog) { moodLog = data.moodLog; saveMoodLog(); }
             renderAll();
             renderSettings();
             alert('Data imported successfully!');
@@ -3730,6 +3954,8 @@
         reminderNotes = [];
         streakFreezeData = { freezesUsedThisWeek: 0, weekStart: '', freezeHistory: {} };
         habitNotes = {};
+        moodLog = {};
+        localStorage.removeItem(MOOD_KEY);
         renderAll();
         renderSettings();
       });
@@ -3746,6 +3972,17 @@
         hideFreezeConfirm();
       });
       document.getElementById('freezeOverlay').addEventListener('click', function(e) { if (e.target === this) hideFreezeConfirm(); });
+
+      // Mood check-in clicks
+      document.getElementById('moodScale').addEventListener('click', function(e) {
+        const btn = e.target.closest('.mood-btn');
+        if (btn) setMood(parseInt(btn.dataset.mood));
+      });
+      document.getElementById('moodChangeBtn').addEventListener('click', function() {
+        delete moodLog[getTodayStr()];
+        saveMoodLog();
+        renderMoodCheckin();
+      });
 
       // Per-habit heatmap chip clicks (event delegation on statsContent)
       document.getElementById('statsContent').addEventListener('click', function(e) {
