@@ -772,7 +772,7 @@
     .notes-hero p { color: var(--on-surface-variant); font-size: 0.95rem; }
     @media (min-width: 768px) { .notes-hero h1 { font-size: 2.8rem; } }
 
-    .note-add-card { background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 24px; }
+    .note-add-card { background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 24px; overflow: visible; }
     .note-add-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .note-add-card h3 .material-symbols-outlined { color: var(--primary); }
     .note-form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
@@ -782,9 +782,31 @@
     .note-form-field input:focus, .note-form-field textarea:focus { box-shadow: var(--shadow-sm); }
     .note-form-field input::placeholder, .note-form-field textarea::placeholder { color: var(--outline); }
     .note-form-field textarea { resize: vertical; min-height: 60px; border-radius: 1.2rem; }
-    .note-form-field input[type="date"] { padding: 14px 20px; cursor: pointer; color-scheme: light; -webkit-appearance: none; appearance: none; background: var(--surface-container-highest); accent-color: var(--primary); }
-    .note-form-field input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
-    .note-form-field input[type="date"]::-webkit-datetime-edit { color: var(--on-surface); }
+    .custom-date-wrap { position: relative; z-index: 50; }
+    .custom-date-trigger { font-family: inherit; font-size: 0.95rem; font-weight: 500; padding: 14px 20px; border-radius: 1.5rem; border: none; background: var(--surface-container-highest); color: var(--on-surface); outline: none; transition: box-shadow 0.2s; cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; }
+    .custom-date-trigger:hover { box-shadow: var(--shadow-sm); }
+    .custom-date-trigger .material-symbols-outlined { font-size: 18px; color: var(--on-surface-variant); }
+    .custom-date-trigger .date-text { flex: 1; }
+    .custom-date-trigger .date-text.placeholder { color: var(--outline); }
+    .custom-cal { position: absolute; bottom: calc(100% + 8px); left: 0; z-index: 9999; background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); border: 1px solid var(--surface-container-high); display: none; width: 300px; animation: slideDown 0.2s ease both; }
+    .custom-cal.open { display: block; }
+    .custom-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .custom-cal-header span { font-size: 0.9rem; font-weight: 700; color: var(--on-surface); }
+    .custom-cal-nav { background: none; border: none; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--on-surface-variant); transition: background 0.15s; }
+    .custom-cal-nav:hover { background: var(--surface-container-high); }
+    .custom-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+    .custom-cal-dow { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--on-surface-variant); padding: 6px 0; }
+    .custom-cal-day { width: 36px; height: 36px; border: none; background: none; border-radius: 50%; cursor: pointer; font-size: 0.82rem; font-weight: 500; color: var(--on-surface); display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.15s; }
+    .custom-cal-day:hover { background: var(--surface-container-high); }
+    .custom-cal-day.today { font-weight: 800; color: var(--primary); }
+    .custom-cal-day.selected { background: var(--primary); color: white; font-weight: 700; }
+    .custom-cal-day.other-month { color: var(--outline); opacity: 0.4; }
+    .custom-cal-footer { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--surface-container-high); }
+    .custom-cal-footer button { background: none; border: none; cursor: pointer; font-family: inherit; font-size: 0.78rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; transition: background 0.15s; }
+    .custom-cal-clear { color: var(--on-surface-variant); }
+    .custom-cal-clear:hover { background: var(--surface-container-high); }
+    .custom-cal-today { color: var(--primary); }
+    .custom-cal-today:hover { background: var(--primary-container); }
     .note-add-btn { font-family: inherit; font-size: 0.9rem; font-weight: 700; padding: 14px 28px; border-radius: 999px; border: none; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--primary-container)); color: white; transition: all 0.15s; white-space: nowrap; align-self: flex-end; box-shadow: 0 4px 16px rgba(134,73,88,0.25); }
     .note-add-btn:hover { box-shadow: 0 6px 24px rgba(134,73,88,0.35); transform: translateY(-2px); }
     .note-add-btn:active { transform: scale(0.97); }
@@ -812,8 +834,8 @@
     /* Dashboard reminder notes */
     .dashboard-reminders { } @media (min-width: 768px) { .dashboard-reminders { grid-column: span 12; } }
     .reminder-banner { background: linear-gradient(135deg, var(--tertiary-container), var(--secondary-container)); border-radius: var(--radius-lg); padding: 20px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 12px; animation: fadeInUp 0.35s ease both; }
-    .reminder-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .reminder-icon .material-symbols-outlined { font-size: 24px; color: var(--on-tertiary-fixed); font-variation-settings: 'FILL' 1; }
+    .reminder-icon { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .reminder-icon .material-symbols-outlined { font-size: 26px; color: var(--on-tertiary-fixed); font-variation-settings: 'FILL' 1; }
     .reminder-text { flex: 1; }
     .reminder-text h4 { font-size: 0.95rem; font-weight: 700; color: var(--on-tertiary-fixed); margin-bottom: 2px; }
     .reminder-text p { font-size: 0.82rem; color: var(--on-tertiary-fixed); opacity: 0.8; line-height: 1.4; }
@@ -1112,9 +1134,25 @@
             </div>
           </div>
           <div class="note-form-row" style="margin-top:14px">
-            <div class="note-form-field" style="min-width:160px;flex:0 0 200px">
+            <div class="note-form-field custom-date-wrap" style="min-width:160px;flex:0 0 220px">
               <label>Reminder Date</label>
-              <input type="date" id="noteDate">
+              <input type="hidden" id="noteDate">
+              <button type="button" class="custom-date-trigger" id="calTrigger">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <span class="date-text placeholder" id="calDisplay">Pick a date</span>
+              </button>
+              <div class="custom-cal" id="customCal">
+                <div class="custom-cal-header">
+                  <button type="button" class="custom-cal-nav" id="calPrev"><span class="material-symbols-outlined">chevron_left</span></button>
+                  <span id="calMonthYear"></span>
+                  <button type="button" class="custom-cal-nav" id="calNext"><span class="material-symbols-outlined">chevron_right</span></button>
+                </div>
+                <div class="custom-cal-grid" id="calGrid"></div>
+                <div class="custom-cal-footer">
+                  <button type="button" class="custom-cal-clear" id="calClear">Clear</button>
+                  <button type="button" class="custom-cal-today" id="calToday">Today</button>
+                </div>
+              </div>
             </div>
             <div class="note-form-field">
               <label>Details (optional)</label>
@@ -2962,9 +3000,86 @@
         document.getElementById('noteTitle').value = '';
         document.getElementById('noteDate').value = '';
         document.getElementById('noteBody').value = '';
+        const calDisp = document.getElementById('calDisplay');
+        calDisp.textContent = 'Pick a date';
+        calDisp.classList.add('placeholder');
         renderNotes();
         renderDashboardReminders();
       });
+
+      // Custom Calendar
+      (function() {
+        const trigger = document.getElementById('calTrigger');
+        const cal = document.getElementById('customCal');
+        const grid = document.getElementById('calGrid');
+        const monthYearEl = document.getElementById('calMonthYear');
+        const hiddenInput = document.getElementById('noteDate');
+        const display = document.getElementById('calDisplay');
+        let viewDate = new Date();
+        let selectedDate = null;
+        const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const DAYS = ['S','M','T','W','T','F','S'];
+
+        function pad(n) { return n < 10 ? '0' + n : n; }
+        function toStr(d) { return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+        function isSameDay(a, b) { return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
+        function render() {
+          const year = viewDate.getFullYear();
+          const month = viewDate.getMonth();
+          monthYearEl.textContent = MONTHS[month] + ' ' + year;
+          const firstDay = new Date(year, month, 1).getDay();
+          const daysInMonth = new Date(year, month+1, 0).getDate();
+          const daysInPrev = new Date(year, month, 0).getDate();
+          const today = new Date();
+          let html = DAYS.map(d => `<span class="custom-cal-dow">${d}</span>`).join('');
+          for (let i = 0; i < firstDay; i++) {
+            const d = daysInPrev - firstDay + 1 + i;
+            html += `<button type="button" class="custom-cal-day other-month" data-date="${toStr(new Date(year, month-1, d))}">${d}</button>`;
+          }
+          for (let d = 1; d <= daysInMonth; d++) {
+            const dt = new Date(year, month, d);
+            let cls = 'custom-cal-day';
+            if (isSameDay(dt, today)) cls += ' today';
+            if (selectedDate && isSameDay(dt, selectedDate)) cls += ' selected';
+            html += `<button type="button" class="${cls}" data-date="${toStr(dt)}">${d}</button>`;
+          }
+          const totalCells = firstDay + daysInMonth;
+          const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+          for (let d = 1; d <= remaining; d++) {
+            html += `<button type="button" class="custom-cal-day other-month" data-date="${toStr(new Date(year, month+1, d))}">${d}</button>`;
+          }
+          grid.innerHTML = html;
+        }
+
+        function selectDate(dateStr) {
+          selectedDate = new Date(dateStr + 'T12:00:00');
+          hiddenInput.value = dateStr;
+          const d = selectedDate;
+          display.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          display.classList.remove('placeholder');
+          render();
+          cal.classList.remove('open');
+        }
+
+        trigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (selectedDate) { viewDate = new Date(selectedDate); } else { viewDate = new Date(); }
+          render();
+          cal.classList.toggle('open');
+        });
+        document.getElementById('calPrev').addEventListener('click', function(e) { e.stopPropagation(); viewDate.setMonth(viewDate.getMonth()-1); render(); });
+        document.getElementById('calNext').addEventListener('click', function(e) { e.stopPropagation(); viewDate.setMonth(viewDate.getMonth()+1); render(); });
+        document.getElementById('calClear').addEventListener('click', function(e) { e.stopPropagation(); selectedDate = null; hiddenInput.value = ''; display.textContent = 'Pick a date'; display.classList.add('placeholder'); render(); cal.classList.remove('open'); });
+        document.getElementById('calToday').addEventListener('click', function(e) { e.stopPropagation(); const t = new Date(); selectDate(toStr(t)); });
+        grid.addEventListener('click', function(e) {
+          const btn = e.target.closest('.custom-cal-day');
+          if (!btn) return;
+          e.stopPropagation();
+          selectDate(btn.dataset.date);
+        });
+        document.addEventListener('mousedown', function(e) { if (!cal.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) cal.classList.remove('open'); });
+      })();
 
       // Sidebar greeting → Settings
       document.getElementById('sidebarGreetingBtn').addEventListener('click', function() { switchView('settings'); });
