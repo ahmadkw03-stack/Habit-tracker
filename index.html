@@ -68,6 +68,86 @@
 
     .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 
+    /* ========== Streak Freeze ========== */
+    .freeze-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--outline); transition: all 0.15s; }
+    .freeze-btn:hover { background: #e3f2fd; color: #1565c0; }
+    .freeze-btn.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+    .freeze-btn .material-symbols-outlined { font-size: 18px; }
+    .freeze-confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .freeze-confirm-overlay.hidden { display: none; }
+    .freeze-confirm { background: var(--surface-container-lowest); border-radius: var(--radius-lg); padding: 32px; max-width: 400px; width: 90%; text-align: center; box-shadow: var(--shadow-lg); }
+    .freeze-confirm .freeze-icon { font-size: 48px; color: #1565c0; margin-bottom: 12px; display: block; }
+    .freeze-confirm h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .freeze-confirm p { font-size: 0.9rem; color: var(--on-surface-variant); margin-bottom: 20px; line-height: 1.6; }
+    .freeze-info-banner { background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-radius: var(--radius); padding: 16px 20px; display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+    .dark-mode .freeze-info-banner { background: linear-gradient(135deg, #1a237e20, #0d47a120); }
+    .freeze-info-banner .material-symbols-outlined { font-size: 28px; color: #1565c0; flex-shrink: 0; }
+    .freeze-info-text h4 { font-size: 0.9rem; font-weight: 700; color: #1565c0; }
+    .freeze-info-text p { font-size: 0.78rem; color: #1565c0; opacity: 0.7; margin-top: 2px; }
+
+    /* ========== Habit Note Panel ========== */
+    .habit-note-panel { overflow: hidden; max-height: 0; transition: max-height 0.3s ease, opacity 0.3s ease; opacity: 0; background: var(--surface-container-low); border-radius: 0 0 var(--radius) var(--radius); margin-top: -4px; }
+    .habit-note-panel.open { max-height: 200px; opacity: 1; padding: 14px 20px; }
+    .habit-note-input { width: 100%; border: none; background: var(--surface-container-highest); border-radius: 12px; padding: 10px 14px; font-family: inherit; font-size: 0.85rem; color: var(--on-surface); resize: none; outline: none; min-height: 44px; }
+    .habit-note-input::placeholder { color: var(--outline); }
+    .habit-note-actions { display: flex; gap: 8px; margin-top: 8px; justify-content: flex-end; }
+    .habit-note-actions button { padding: 6px 16px; border-radius: 999px; border: none; font-family: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .habit-note-actions .note-save-btn { background: var(--primary); color: var(--on-primary); }
+    .habit-note-actions .note-save-btn:hover { opacity: 0.9; }
+    .habit-note-actions .note-skip-btn { background: var(--surface-container-high); color: var(--on-surface-variant); }
+
+    /* ========== Journal Timeline (Stats) ========== */
+    .journal-section { margin-top: 32px; }
+    .journal-section h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .journal-section h3 .material-symbols-outlined { color: var(--primary); font-size: 22px; }
+    .journal-timeline { display: flex; flex-direction: column; gap: 12px; }
+    .journal-entry { background: var(--surface-container-lowest); border-radius: var(--radius); padding: 16px 20px; display: flex; gap: 16px; box-shadow: var(--shadow-sm); }
+    .journal-entry:hover { box-shadow: var(--shadow-md); }
+    .journal-entry-date { flex-shrink: 0; text-align: center; padding-right: 16px; border-right: 2px solid var(--primary-container); }
+    .journal-entry-date .je-day { font-size: 1.4rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
+    .journal-entry-date .je-month { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--on-surface-variant); }
+    .journal-entry-content { flex: 1; min-width: 0; }
+    .journal-entry-habit { font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .journal-entry-text { font-size: 0.9rem; color: var(--on-surface); line-height: 1.5; }
+    .journal-entry-delete { background: none; border: none; cursor: pointer; color: var(--outline); padding: 4px; border-radius: 50%; transition: all 0.15s; flex-shrink: 0; align-self: flex-start; }
+    .journal-entry-delete:hover { color: var(--error); background: rgba(180,19,64,0.1); }
+    .journal-entry-delete .material-symbols-outlined { font-size: 16px; }
+    .journal-empty { text-align: center; padding: 32px; color: var(--on-surface-variant); }
+    .journal-empty .material-symbols-outlined { font-size: 40px; color: var(--primary-container); margin-bottom: 8px; display: block; }
+
+    /* ========== Celebration Animation ========== */
+    @keyframes particleFly { 0% { opacity: 1; transform: translate(0,0) scale(1); } 100% { opacity: 0; transform: translate(var(--px), var(--py)) scale(0); } }
+    @keyframes glowPulse { 0% { box-shadow: var(--shadow-sm); } 50% { box-shadow: 0 0 20px rgba(134,73,88,0.3), 0 0 40px rgba(134,73,88,0.1); } 100% { box-shadow: var(--shadow-sm); } }
+    @keyframes bloomExpand { 0% { transform: scale(0); opacity: 0.6; } 100% { transform: scale(4); opacity: 0; } }
+    @keyframes toastSlide { 0% { transform: translateX(-50%) translateY(-100%); opacity: 0; } 10% { transform: translateX(-50%) translateY(0); opacity: 1; } 85% { transform: translateX(-50%) translateY(0); opacity: 1; } 100% { transform: translateX(-50%) translateY(-100%); opacity: 0; } }
+    .celebration-particle { position: fixed; border-radius: 50%; pointer-events: none; z-index: 300; animation: particleFly 0.6s ease-out forwards; }
+    .habit-item.just-completed { animation: glowPulse 1.5s ease; }
+    .all-done-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100%); background: linear-gradient(135deg, #ffd700, #ffb700); color: #5d4200; padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 32px rgba(255,215,0,0.3); z-index: 250; opacity: 0; pointer-events: none; }
+    .all-done-toast.show { animation: toastSlide 3.5s ease both; }
+    .all-done-bloom { position: fixed; border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.3), transparent); pointer-events: none; z-index: 240; width: 100px; height: 100px; animation: bloomExpand 1s ease-out forwards; }
+
+    /* ========== Per-Habit Heatmap ========== */
+    .per-habit-heatmap { margin-top: 32px; }
+    .per-habit-heatmap h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .per-habit-heatmap h3 .material-symbols-outlined { color: var(--primary); font-size: 22px; }
+    .heatmap-habit-selector { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .heatmap-habit-chip { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; border: 2px solid var(--surface-container-high); background: var(--surface-container-lowest); cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; color: var(--on-surface-variant); transition: all 0.15s; }
+    .heatmap-habit-chip:hover { border-color: var(--primary-container); }
+    .heatmap-habit-chip.active { border-color: var(--primary); background: var(--primary-container); color: var(--on-primary-container); }
+    .heatmap-habit-chip .chip-emoji { font-size: 1rem; }
+    .per-heatmap-grid { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; background: var(--surface-container-lowest); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); }
+    .per-heatmap-cell { aspect-ratio: 1; border-radius: 4px; background: var(--surface-container-high); position: relative; cursor: pointer; transition: transform 0.1s; min-width: 0; }
+    .per-heatmap-cell:hover { transform: scale(1.3); z-index: 2; }
+    .per-heatmap-cell.level-1 { background: var(--secondary-container); }
+    .per-heatmap-cell.level-2 { background: var(--primary-container); }
+    .per-heatmap-cell.level-3 { background: var(--primary); }
+    .per-heatmap-cell.frozen { background: #64b5f6 !important; }
+    .per-heatmap-cell.has-note::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 4px; height: 4px; border-radius: 50%; background: var(--on-surface); opacity: 0.5; }
+    .per-heatmap-cell.future { opacity: 0.2; }
+    .per-heatmap-tooltip { position: fixed; background: var(--on-surface); color: var(--surface); padding: 8px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 500; z-index: 300; pointer-events: none; white-space: nowrap; box-shadow: var(--shadow-md); }
+    .per-heatmap-legend { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 0.7rem; color: var(--on-surface-variant); justify-content: flex-end; }
+    .per-heatmap-legend .swatch { width: 12px; height: 12px; border-radius: 3px; }
+
     /* ========== Top App Bar (hidden) ========== */
     .top-bar { display: none; }
 
@@ -1248,6 +1328,27 @@
             </div>
           </div>
 
+          <!-- Streak Freeze Card -->
+          <div class="settings-card fade-in fade-in-d2">
+            <div class="settings-card-header">
+              <span class="material-symbols-outlined" style="color:#1565c0">ac_unit</span>
+              <h3>Streak Freeze</h3>
+            </div>
+            <div class="freeze-info-banner">
+              <span class="material-symbols-outlined">ac_unit</span>
+              <div class="freeze-info-text">
+                <h4 id="settingsFreezeStatus">0 of 1 used this week</h4>
+                <p id="settingsFreezeReset">Resets every Monday</p>
+              </div>
+            </div>
+            <div class="settings-row" style="margin-top:12px">
+              <div class="settings-row-info">
+                <h4>How it works</h4>
+                <p>Use 1 freeze per week to preserve a streak when you miss a day. Look for the ❄️ button on habits with broken streaks.</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Data & Stats Card -->
           <div class="settings-card fade-in fade-in-d3">
             <div class="settings-card-header">
@@ -1328,6 +1429,12 @@
     <div class="report-card" id="reportCardContent"></div>
   </div>
 
+  <!-- All Done Toast -->
+  <div class="all-done-toast" id="allDoneToast">
+    <span style="font-size:1.3rem">🎉</span>
+    <span>All habits done! Amazing work!</span>
+  </div>
+
   <!-- Delete Confirm Modal -->
   <div class="modal-overlay hidden" id="confirmOverlay">
     <div class="modal confirm-dialog" role="alertdialog" aria-labelledby="confirmTitle" aria-describedby="confirmMsg">
@@ -1337,6 +1444,19 @@
       <div class="form-actions">
         <button class="btn btn-ghost" id="confirmCancel">Keep it</button>
         <button class="btn btn-danger" id="confirmDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Freeze Confirm Modal -->
+  <div class="freeze-confirm-overlay hidden" id="freezeOverlay">
+    <div class="freeze-confirm">
+      <span class="freeze-icon">❄️</span>
+      <h3>Use Streak Freeze?</h3>
+      <p id="freezeMsg">This will preserve your streak by marking yesterday as a frozen day. You get 1 freeze per week.</p>
+      <div class="form-actions">
+        <button class="btn btn-ghost" id="freezeCancel">Cancel</button>
+        <button class="btn btn-primary" id="freezeConfirm" style="background:#1565c0;color:white">Use Freeze</button>
       </div>
     </div>
   </div>
@@ -1382,6 +1502,155 @@
       } return best;
     }
     function getOverallBestCurrentStreak() { let b = 0; for (const h of appState.habits) { const s = getCurrentStreak(h); if (s > b) b = s; } return b; }
+
+    // ===== Streak Freeze =====
+    const FREEZE_KEY = 'radiantStreakFreeze_v1';
+    let streakFreezeData = { freezesUsedThisWeek: 0, weekStart: '', freezeHistory: {} };
+    let pendingFreezeHabitId = null;
+
+    function getWeekStart() {
+      const d = new Date(); const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      return getDateStr(new Date(d.setDate(diff)));
+    }
+    function loadStreakFreeze() {
+      try { const r = localStorage.getItem(FREEZE_KEY); if (r) streakFreezeData = JSON.parse(r); } catch(e) { streakFreezeData = { freezesUsedThisWeek: 0, weekStart: '', freezeHistory: {} }; }
+      const currentWeek = getWeekStart();
+      if (streakFreezeData.weekStart !== currentWeek) {
+        streakFreezeData.freezesUsedThisWeek = 0;
+        streakFreezeData.weekStart = currentWeek;
+        saveStreakFreeze();
+      }
+    }
+    function saveStreakFreeze() {
+      try { localStorage.setItem(FREEZE_KEY, JSON.stringify(streakFreezeData)); } catch(e) {}
+    }
+    function canUseFreeze() { return streakFreezeData.freezesUsedThisWeek < 1; }
+    function getYesterdayStr() { const d = new Date(); d.setDate(d.getDate() - 1); return getDateStr(d); }
+
+    function showFreezeConfirm(habitId) {
+      const h = appState.habits.find(x => x.id === habitId);
+      if (!h) return;
+      pendingFreezeHabitId = habitId;
+      document.getElementById('freezeMsg').textContent =
+        `This will preserve ${h.name}'s streak by marking yesterday as a frozen day. You have ${canUseFreeze() ? '1 freeze' : '0 freezes'} left this week.`;
+      document.getElementById('freezeOverlay').classList.remove('hidden');
+    }
+    function hideFreezeConfirm() { pendingFreezeHabitId = null; document.getElementById('freezeOverlay').classList.add('hidden'); }
+
+    function useStreakFreeze(habitId) {
+      if (!canUseFreeze()) return;
+      const h = appState.habits.find(x => x.id === habitId);
+      if (!h) return;
+      const yesterday = getYesterdayStr();
+      h.completions[yesterday] = 'frozen';
+      streakFreezeData.freezesUsedThisWeek++;
+      streakFreezeData.freezeHistory[yesterday] = habitId;
+      saveStreakFreeze();
+      saveToStorage();
+      renderAll();
+    }
+
+    function habitNeedsFreeze(h) {
+      const today = getTodayStr();
+      const yesterday = getYesterdayStr();
+      // Show freeze if: yesterday not completed, today not completed, and had a streak before yesterday
+      if (h.completions[today] || h.completions[yesterday]) return false;
+      // Check if there was a streak ending 2 days ago
+      const twoDaysAgo = new Date(); twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+      return !!h.completions[getDateStr(twoDaysAgo)];
+    }
+
+    // ===== Habit Notes / Quick Journal =====
+    const HABIT_NOTES_KEY = 'radiantHabitNotes_v1';
+    let habitNotes = {};
+
+    function loadHabitNotes() {
+      try { const r = localStorage.getItem(HABIT_NOTES_KEY); if (r) habitNotes = JSON.parse(r); } catch(e) { habitNotes = {}; }
+    }
+    function saveHabitNotes() {
+      try { localStorage.setItem(HABIT_NOTES_KEY, JSON.stringify(habitNotes)); } catch(e) {}
+    }
+    function saveHabitNote(habitId, text) {
+      if (!text.trim()) return;
+      if (!habitNotes[habitId]) habitNotes[habitId] = [];
+      habitNotes[habitId].push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+        date: getTodayStr(),
+        text: text.trim(),
+        timestamp: Date.now()
+      });
+      saveHabitNotes();
+    }
+    function deleteHabitNote(habitId, noteId) {
+      if (!habitNotes[habitId]) return;
+      habitNotes[habitId] = habitNotes[habitId].filter(n => n.id !== noteId);
+      if (!habitNotes[habitId].length) delete habitNotes[habitId];
+      saveHabitNotes();
+    }
+    function showNotePanel(habitId) {
+      // Close any existing note panels first
+      document.querySelectorAll('.habit-note-panel.open').forEach(p => p.classList.remove('open'));
+      const panel = document.querySelector(`.habit-note-panel[data-habit="${habitId}"]`);
+      if (panel) {
+        panel.classList.add('open');
+        const input = panel.querySelector('.habit-note-input');
+        if (input) setTimeout(() => input.focus(), 300);
+      }
+    }
+    function closeNotePanel(habitId) {
+      const panel = document.querySelector(`.habit-note-panel[data-habit="${habitId}"]`);
+      if (panel) panel.classList.remove('open');
+    }
+
+    // ===== Celebration Animation =====
+    function spawnParticles(buttonEl) {
+      const rect = buttonEl.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const colors = ['var(--primary)', 'var(--primary-container)', 'var(--secondary)', 'var(--tertiary-container)', '#ffd700', '#ff6b9d'];
+      for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'celebration-particle';
+        const angle = (Math.PI * 2 * i) / 8 + (Math.random() - 0.5) * 0.5;
+        const dist = 30 + Math.random() * 30;
+        const px = Math.cos(angle) * dist;
+        const py = Math.sin(angle) * dist;
+        const size = 4 + Math.random() * 4;
+        particle.style.cssText = `left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${colors[i % colors.length]};--px:${px}px;--py:${py}px;`;
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 700);
+      }
+    }
+    function showCelebration(habitId) {
+      const item = document.querySelector(`.habit-item[data-id="${habitId}"]`);
+      if (!item) return;
+      item.classList.add('just-completed');
+      setTimeout(() => item.classList.remove('just-completed'), 1500);
+      const btn = item.querySelector('.check-btn');
+      if (btn) spawnParticles(btn);
+    }
+    function checkAllDone() {
+      if (!appState.habits.length) return;
+      const today = getTodayStr();
+      const allDone = appState.habits.every(h => h.completions[today]);
+      if (allDone) {
+        // Bloom effect
+        const bloom = document.createElement('div');
+        bloom.className = 'all-done-bloom';
+        bloom.style.cssText = `left:${window.innerWidth/2 - 50}px;top:${window.innerHeight/2 - 50}px;`;
+        document.body.appendChild(bloom);
+        setTimeout(() => bloom.remove(), 1100);
+        // Toast
+        const toast = document.getElementById('allDoneToast');
+        if (toast) {
+          toast.classList.remove('show');
+          void toast.offsetWidth;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 3600);
+        }
+      }
+    }
 
     // ===== Achievement Badges =====
     const BADGES_KEY = 'radiantBadges_v1';
@@ -2261,7 +2530,9 @@
     function toggleHabit(id) {
       const h = appState.habits.find(x => x.id === id); if (!h) return;
       const prevBest = personalBests[h.id] || getBestStreak(h);
-      const t = getTodayStr(); h.completions[t] ? delete h.completions[t] : h.completions[t] = true;
+      const t = getTodayStr();
+      const wasCompleted = !!h.completions[t];
+      h.completions[t] ? delete h.completions[t] : h.completions[t] = true;
       const newBest = getBestStreak(h);
       if (h.completions[t] && newBest > prevBest && newBest > 1) {
         showPersonalBestToast(h.name, newBest);
@@ -2271,6 +2542,12 @@
         savePersonalBests();
       }
       saveToStorage(); renderAll();
+      // Celebration + note panel on completion
+      if (!wasCompleted && h.completions[t]) {
+        showCelebration(id);
+        checkAllDone();
+        showNotePanel(id);
+      }
     }
     function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
@@ -2331,7 +2608,8 @@
       let html = '';
       appState.habits.forEach((h,i) => {
         const isDone = !!h.completions[today], streak = getCurrentStreak(h), best = getBestStreak(h);
-        let weekly = ''; last7.forEach(ds => { let c = 'mini-dot'; if (h.completions[ds]) c += ' filled'; if (ds === today) c += ' today'; weekly += `<div class="${c}"></div>`; });
+        const needsFreeze = !isDone && habitNeedsFreeze(h) && canUseFreeze();
+        let weekly = ''; last7.forEach(ds => { let c = 'mini-dot'; if (h.completions[ds]) c += ' filled'; if (h.completions[ds] === 'frozen') c += ' frozen'; if (ds === today) c += ' today'; weekly += `<div class="${c}"></div>`; });
         html += `<div class="habit-item fade-in fade-in-d${(i%4)+1} ${isDone?'completed':''}" data-id="${h.id}">
           <div class="habit-item-left">
             <div class="habit-icon-box" style="background:${h.color}20">${h.emoji}</div>
@@ -2342,10 +2620,18 @@
           </div>
           <div class="habit-item-right">
             <div class="habit-weekly">${weekly}</div>
+            ${needsFreeze ? `<button class="freeze-btn" aria-label="Use streak freeze for ${escapeHtml(h.name)}" onclick="showFreezeConfirm('${h.id}')" title="Use streak freeze"><span class="material-symbols-outlined">ac_unit</span></button>` : ''}
             <button class="edit-btn" aria-label="Edit ${escapeHtml(h.name)}" onclick="startEditHabit('${h.id}')"><span class="material-symbols-outlined">edit</span></button>
             <button class="delete-btn" aria-label="Delete ${escapeHtml(h.name)}" onclick="showDeleteConfirm('${h.id}')"><span class="material-symbols-outlined">delete</span></button>
             <button class="check-btn ${isDone?'checked':''}" aria-label="Mark ${escapeHtml(h.name)} as ${isDone?'not done':'done'}" onclick="toggleHabit('${h.id}')"><span class="material-symbols-outlined">${isDone?'check_circle':'check'}</span></button>
-          </div></div>`;
+          </div></div>
+        <div class="habit-note-panel" data-habit="${h.id}">
+          <textarea class="habit-note-input" placeholder="Quick note about today's ${escapeHtml(h.name)}..." rows="2"></textarea>
+          <div class="habit-note-actions">
+            <button class="note-skip-btn" onclick="closeNotePanel('${h.id}')">Skip</button>
+            <button class="note-save-btn" onclick="(function(){ const t=document.querySelector('.habit-note-panel[data-habit=\\'${h.id}\\'] .habit-note-input'); if(t&&t.value.trim()){saveHabitNote('${h.id}',t.value);t.value='';} closeNotePanel('${h.id}'); })()">Save</button>
+          </div>
+        </div>`;
       });
       el.innerHTML = html;
     }
@@ -2449,6 +2735,117 @@
         <span class="material-symbols-outlined" style="font-size:20px;color:var(--primary)">query_stats</span>
         <div><strong>${rate}%</strong> completion over <strong>${days} day${days !== 1 ? 's' : ''}</strong> (${fromLabel} – ${toLabel})${habitBreak}</div>
       </div>`;
+    }
+
+    // ===== Per-Habit Heatmap =====
+    let perHeatmapSelectedHabit = 'all';
+    let activePerHeatmapTooltip = null;
+
+    function renderPerHabitHeatmap(habitId) {
+      perHeatmapSelectedHabit = habitId;
+      const selectorEl = document.getElementById('perHeatmapSelector');
+      const gridEl = document.getElementById('perHeatmapGrid');
+      if (!selectorEl || !gridEl) return;
+
+      // Build selector chips
+      let chips = `<button class="heatmap-habit-chip ${habitId === 'all' ? 'active' : ''}" data-per-habit="all"><span class="chip-emoji">📊</span> Overall</button>`;
+      appState.habits.forEach(h => {
+        chips += `<button class="heatmap-habit-chip ${habitId === h.id ? 'active' : ''}" data-per-habit="${h.id}"><span class="chip-emoji">${h.emoji}</span> ${escapeHtml(h.name)}</button>`;
+      });
+      selectorEl.innerHTML = chips;
+
+      // Build 90-day grid
+      const today = new Date();
+      const todayStr = getTodayStr();
+      let gridHtml = '';
+      for (let i = 90; i >= 0; i--) {
+        const d = new Date(today); d.setDate(d.getDate() - i);
+        const ds = getDateStr(d);
+        const isFuture = ds > todayStr;
+        let level = 0, frozen = false, hasNote = false;
+
+        if (!isFuture) {
+          if (habitId === 'all') {
+            const total = appState.habits.filter(h => ds >= h.createdAt).length;
+            const done = appState.habits.filter(h => h.completions[ds]).length;
+            const anyFrozen = appState.habits.some(h => h.completions[ds] === 'frozen');
+            if (total > 0) {
+              const pct = done / total;
+              level = pct >= 1 ? 3 : pct >= 0.5 ? 2 : pct > 0 ? 1 : 0;
+            }
+            frozen = anyFrozen;
+            // Check notes for any habit
+            hasNote = Object.values(habitNotes).some(notes => notes.some(n => n.date === ds));
+          } else {
+            const h = appState.habits.find(x => x.id === habitId);
+            if (h) {
+              if (h.completions[ds] === 'frozen') { frozen = true; level = 1; }
+              else if (h.completions[ds]) level = 3;
+              hasNote = habitNotes[habitId] && habitNotes[habitId].some(n => n.date === ds);
+            }
+          }
+        }
+
+        const classes = ['per-heatmap-cell'];
+        if (level > 0) classes.push('level-' + level);
+        if (frozen) classes.push('frozen');
+        if (hasNote) classes.push('has-note');
+        if (isFuture) classes.push('future');
+        const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        gridHtml += `<div class="${classes.join(' ')}" data-date="${ds}" data-label="${dateLabel}" title="${dateLabel}"></div>`;
+      }
+      gridHtml += `<div class="per-heatmap-legend" style="grid-column: 1/-1;">
+        <span>Less</span>
+        <div class="swatch" style="background:var(--surface-container-high)"></div>
+        <div class="swatch" style="background:var(--secondary-container)"></div>
+        <div class="swatch" style="background:var(--primary-container)"></div>
+        <div class="swatch" style="background:var(--primary)"></div>
+        <span>More</span>
+        <div class="swatch" style="background:#64b5f6;margin-left:8px"></div>
+        <span>Frozen</span>
+      </div>`;
+      gridEl.innerHTML = `<div class="per-heatmap-grid">${gridHtml}</div>`;
+    }
+
+    function hidePerHeatmapTooltip() {
+      if (activePerHeatmapTooltip) { activePerHeatmapTooltip.remove(); activePerHeatmapTooltip = null; }
+    }
+
+    // ===== Journal Timeline =====
+    function renderJournalTimeline() {
+      const el = document.getElementById('journalTimeline');
+      if (!el) return;
+      // Collect all notes sorted by date desc
+      const allNotes = [];
+      for (const [habitId, notes] of Object.entries(habitNotes)) {
+        const h = appState.habits.find(x => x.id === habitId);
+        if (!h) continue;
+        notes.forEach(n => allNotes.push({ ...n, habitId, habitName: h.name, emoji: h.emoji }));
+      }
+      allNotes.sort((a, b) => b.timestamp - a.timestamp);
+
+      if (!allNotes.length) {
+        el.innerHTML = '<div class="journal-empty"><span class="material-symbols-outlined">auto_stories</span><p>No journal entries yet. Complete a habit and add a note!</p></div>';
+        return;
+      }
+
+      let html = '<div class="journal-timeline">';
+      allNotes.slice(0, 20).forEach(n => {
+        const d = new Date(n.date + 'T12:00:00');
+        html += `<div class="journal-entry fade-in">
+          <div class="journal-entry-date">
+            <span class="je-day">${d.getDate()}</span>
+            <span class="je-month">${d.toLocaleDateString('en-US', { month: 'short' })}</span>
+          </div>
+          <div class="journal-entry-content">
+            <div class="journal-entry-habit">${n.emoji} ${escapeHtml(n.habitName)}</div>
+            <div class="journal-entry-text">${escapeHtml(n.text)}</div>
+          </div>
+          <button class="journal-entry-delete" onclick="deleteHabitNote('${n.habitId}','${n.id}');renderJournalTimeline()" aria-label="Delete note"><span class="material-symbols-outlined">close</span></button>
+        </div>`;
+      });
+      html += '</div>';
+      el.innerHTML = html;
     }
 
     // ===== Rendering: Statistics =====
@@ -2718,9 +3115,24 @@
             ${customRange ? renderCustomRangeSummary() : '<div class="custom-range-summary" style="margin-top:14px;opacity:0.6"><span class="material-symbols-outlined" style="font-size:18px;color:var(--outline)">info</span> Pick a date range to see your completion rate for any custom window.</div>'}
           </div>
         </div>
+
+        <!-- Per-Habit Heatmap -->
+        <div class="per-habit-heatmap fade-in">
+          <h3><span class="material-symbols-outlined">grid_on</span> Habit Heatmap</h3>
+          <div class="heatmap-habit-selector" id="perHeatmapSelector"></div>
+          <div id="perHeatmapGrid"></div>
+        </div>
+
+        <!-- Journal Timeline -->
+        <div class="journal-section fade-in">
+          <h3><span class="material-symbols-outlined">auto_stories</span> Habit Journal</h3>
+          <div id="journalTimeline"></div>
+        </div>
       `;
 
       container.innerHTML = html;
+      renderPerHabitHeatmap('all');
+      renderJournalTimeline();
       animateStatsNumbers();
       // Position the sliding pill behind active range chip
       requestAnimationFrame(() => {
@@ -2795,6 +3207,17 @@
       if (ssHabits) ssHabits.textContent = appState.habits.length;
       if (ssCompletions) ssCompletions.textContent = getTotalCompletions();
       if (ssBadges) ssBadges.textContent = Object.keys(unlockedBadges).length;
+
+      // Streak freeze info
+      const freezeStatus = document.getElementById('settingsFreezeStatus');
+      if (freezeStatus) freezeStatus.textContent = `${streakFreezeData.freezesUsedThisWeek} of 1 used this week`;
+      const freezeReset = document.getElementById('settingsFreezeReset');
+      if (freezeReset) {
+        const nextMonday = new Date();
+        const day = nextMonday.getDay();
+        nextMonday.setDate(nextMonday.getDate() + (day === 0 ? 1 : day === 1 ? 7 : 8 - day));
+        freezeReset.textContent = `Resets ${nextMonday.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
+      }
     }
 
     // ===== Reminder Notes =====
@@ -2933,6 +3356,8 @@
         if (sideIcon) sideIcon.textContent = 'light_mode';
       }
       loadNotes();
+      loadStreakFreeze();
+      loadHabitNotes();
       initThemeBar();
       loadColorTheme();
       // Sync theme bar dark icon on load
@@ -3241,7 +3666,9 @@
           personalBests: personalBests,
           goalTargets: goalTargets,
           profile: userProfile,
-          notes: reminderNotes
+          notes: reminderNotes,
+          streakFreeze: streakFreezeData,
+          habitNotes: habitNotes
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -3271,6 +3698,8 @@
             if (data.goalTargets) { goalTargets = data.goalTargets; saveGoalTargets(); }
             if (data.profile) { userProfile = data.profile; saveProfile(); }
             if (data.notes) { reminderNotes = data.notes; saveNotes(); }
+            if (data.streakFreeze) { streakFreezeData = data.streakFreeze; saveStreakFreeze(); }
+            if (data.habitNotes) { habitNotes = data.habitNotes; saveHabitNotes(); }
             renderAll();
             renderSettings();
             alert('Data imported successfully!');
@@ -3291,12 +3720,16 @@
         localStorage.removeItem(GOALS_KEY);
         localStorage.removeItem(PROFILE_KEY);
         localStorage.removeItem(NOTES_KEY);
+        localStorage.removeItem(FREEZE_KEY);
+        localStorage.removeItem(HABIT_NOTES_KEY);
         appState = { habits: [] };
         unlockedBadges = {};
         personalBests = {};
         goalTargets = {};
         userProfile = { name: '', avatar: '🌱' };
         reminderNotes = [];
+        streakFreezeData = { freezesUsedThisWeek: 0, weekStart: '', freezeHistory: {} };
+        habitNotes = {};
         renderAll();
         renderSettings();
       });
@@ -3306,9 +3739,24 @@
       document.getElementById('confirmDelete').addEventListener('click', function() { if (pendingDeleteId) deleteHabit(pendingDeleteId); hideDeleteConfirm(); });
       document.getElementById('confirmOverlay').addEventListener('click', function(e) { if (e.target === this) hideDeleteConfirm(); });
 
+      // Freeze confirmation
+      document.getElementById('freezeCancel').addEventListener('click', hideFreezeConfirm);
+      document.getElementById('freezeConfirm').addEventListener('click', function() {
+        if (pendingFreezeHabitId) { useStreakFreeze(pendingFreezeHabitId); }
+        hideFreezeConfirm();
+      });
+      document.getElementById('freezeOverlay').addEventListener('click', function(e) { if (e.target === this) hideFreezeConfirm(); });
+
+      // Per-habit heatmap chip clicks (event delegation on statsContent)
+      document.getElementById('statsContent').addEventListener('click', function(e) {
+        const chip = e.target.closest('[data-per-habit]');
+        if (chip) { renderPerHabitHeatmap(chip.dataset.perHabit); return; }
+      });
+
       // Escape key
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+          if (!document.getElementById('freezeOverlay').classList.contains('hidden')) { hideFreezeConfirm(); return; }
           if (!document.getElementById('reportOverlay').classList.contains('hidden')) { hideWeeklyReport(); return; }
           if (activePopover) { hideHeatmapPopover(); return; }
           if (activeDrillDown) { closePerformerDrillDown(); return; }
